@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "472369635498",
+    "firebase_url": "https://marketplace-ed850.firebaseio.com",
+    "project_id": "marketplace-ed850",
+    "storage_bucket": "marketplace-ed850.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:472369635498:android:7caf6300247ccf55",
+        "android_client_info": {
+          "package_name": "marketplace.tcc.usjt.br.marketplace"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "472369635498-vtc6e4ifs1lvme8svfphpcflps7975oa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "marketplace.tcc.usjt.br.marketplace",
+            "certificate_hash": "19e5846014dd850c26801fdbb7c3409132f470d1"
+          }
+        },
+        {
+          "client_id": "472369635498-1i2e585ltiuks4nqe89s0tlup2jqklc3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7ANjJQWmWw--NK3fLJqvPeOlH7Iqc47w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "472369635498-1i2e585ltiuks4nqe89s0tlup2jqklc3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

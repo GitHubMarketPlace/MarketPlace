@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TEMPLATE DO LOGIN -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    tools:context="marketplace.tcc.usjt.br.marketplace.activity.MainActivity">
+
+    <ScrollView
+        android:id="@+id/login_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fastScrollAlwaysVisible="false"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:id="@+id/login_form_inputs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <TextView
+                android:id="@+id/textView_estb1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:padding="10dp"
+                android:text="Seja bem vindo!"
+                android:textSize="20dp"
+                android:textColor="#000000"/>
+
+            <TextView
+                android:id="@+id/textView_estb2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:padding="10dp"
+                android:text="Temos muito prazer em recebe-lo"
+                android:textSize="20dp"
+                android:textColor="#000000"/>
+
+            <Button
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="130px"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/roundcorner"
+                android:onClick="goToLogin"
+                android:textColor="#FFFFFF"
+                android:text="ENTRAR"/>
+
+            <Button
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="130px"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/roundcorner"
+                android:onClick="cadastrarEstabelecimento"
+                android:textColor="#FFFFFF"
+                android:text="CADASTRAR ESTABELECIMENTO"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,10 @@
+<!-- AQUI DEFINIMOS O DEGRADÊ DO HEADER DA SIDENAV -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="135"
+        android:centerColor="#ff8800"
+        android:endColor="#d16f00"
+        android:startColor="#ff9a2e"
+        android:type="linear" />
+</shape>

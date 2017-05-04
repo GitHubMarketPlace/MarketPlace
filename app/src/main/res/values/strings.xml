@@ -1,0 +1,23 @@
+<resources>
+    <!-- STRINGS GLOBAIS -->
+    <string name="app_name">Market Place</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- STRINGS DO LOGIN -->
+    <string name="prompt_email">E-mail</string>
+    <string name="prompt_password">Senha</string>
+
+    <!-- STRINGS DO SIDENAV -->
+    <string name="sidenav_initial">Início</string>
+    <string name="sidenav_best_option">Minha melhor opção</string>
+    <string name="sidenav_create_my_list">Criar minha lista</string>
+    <string name="sidenav_promotions">Promoções</string>
+    <string name="sidenav_history">Histórico de compras</string>
+    <string name="sidenav_contact">Entrar em contato</string>
+    <string name="sidenav_about">Sobre</string>
+    <string name="sidenav_logout">Sair</string>
+
+    <!-- STRINGS DE MENU -->
+    <string name="action_settings">Settings</string>
+</resources>

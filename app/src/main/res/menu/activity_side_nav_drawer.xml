@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TEMPLATE DO CONTEÚDO DA SIDENAV -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_home"        android:title="@string/sidenav_initial"        android:icon="@drawable/ic_home"/>
+        <item android:id="@+id/nav_best_choice" android:title="@string/sidenav_best_option"    android:icon="@drawable/ic_star"/>
+        <item android:id="@+id/nav_my_list"     android:title="@string/sidenav_create_my_list" android:icon="@drawable/ic_playlist_add"/>
+        <item android:id="@+id/nav_promotions"  android:title="@string/sidenav_promotions"     android:icon="@drawable/ic_card_giftcard"/>
+        <item android:id="@+id/nav_history"     android:title="@string/sidenav_history"        android:icon="@drawable/ic_history"/>
+    </group>
+
+    <item android:title="Mais opções">
+        <menu>
+            <item android:id="@+id/nav_contact" android:title="@string/sidenav_contact" android:icon="@drawable/ic_send"/>
+            <item android:id="@+id/nav_about"   android:title="@string/sidenav_about"   android:icon="@drawable/ic_person_outline" />
+            <item android:id="@+id/nav_logout"  android:title="@string/sidenav_logout"  android:icon="@drawable/ic_power" />
+        </menu>
+    </item>
+
+</menu>
