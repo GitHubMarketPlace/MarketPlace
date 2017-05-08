@@ -96,18 +96,23 @@ public class SideNavActivity extends AppCompatActivity implements NavigationView
             Intent perfil = new Intent(this, SideNavActivity.class);
             startActivity(perfil);
         } else if (id == R.id.nav_best_choice) {
-
+            Intent myBestOption = new Intent(this, MinhaMelhorOpcaoActivity.class);
+            startActivity(myBestOption);
         } else if (id == R.id.nav_my_list) {
             Intent createMyList = new Intent(this, CriarMinhaListaActivity.class);
             startActivity(createMyList);
         } else if (id == R.id.nav_promotions) {
-
+            Intent promotion = new Intent(this, PromocaoActivity.class);
+            startActivity(promotion);
         } else if (id == R.id.nav_history) {
-
+            Intent history = new Intent(this, HistoricoDeComprasActivity.class);
+            startActivity(history);
         } else if (id == R.id.nav_contact) {
-
+            Intent contact = new Intent(this, EntrarEmContatoActivity.class);
+            startActivity(contact);
         } else if (id == R.id.nav_about) {
-
+            Intent about = new Intent(this, SobreActivity.class);
+            startActivity(about);
         } else if (id == R.id.nav_logout){
             firebaseAuth = FirebaseConfig.getFirebaseAuth();
             firebaseAuth.signOut();

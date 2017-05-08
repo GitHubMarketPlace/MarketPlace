@@ -30,13 +30,11 @@ dependencies {
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:design:24.2.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
-    // External libraries
     compile 'com.github.rtoshiro.mflibrary:mflibrary:1.0.0'
     compile 'com.azoft.carousellayoutmanager:carousel:1.2.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.synnapps:carouselview:0.0.10'
     compile 'com.balysv:material-ripple:1.0.2'
-    // Firebase
     compile 'com.google.firebase:firebase-core:9.6.1'
     compile 'com.google.firebase:firebase-database:9.6.1'
     compile 'com.google.firebase:firebase-storage:9.6.1'
@@ -46,9 +44,7 @@ dependencies {
     compile 'com.google.firebase:firebase-config:9.6.1'
     compile 'com.google.firebase:firebase-invites:9.6.1'
     compile 'com.google.firebase:firebase-ads:9.6.1'
-    // Tests
     testCompile 'junit:junit:4.12'
-
 }
 
 apply plugin: 'com.google.gms.google-services'
