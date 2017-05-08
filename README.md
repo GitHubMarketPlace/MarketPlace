@@ -13,13 +13,12 @@ Buscamos sempre pesquisar e trazer tudo de mais novo e eficiente para dentro do 
 
 Gostou da idéia?
 -----------------
-
-  * Francisco José Olvera Junior
-  * Paulo Rafael da Silva
+  * Francisco José Olvera Junior
   * Pedro Paulo Torisu
   * Rodrigo de Brito Correia
   * Thiago Ribeiro da Silva
   * Valber Figueredo Mendes Lima
+  * Paulo Rafael da Silva
   
   Entreem contato com os idealizadores da idéia!
 
