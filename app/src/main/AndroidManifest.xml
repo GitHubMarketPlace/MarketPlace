@@ -13,66 +13,65 @@
             android:label=""
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
         <!-- LOGIN USUÁRIO -->
         <activity
             android:name=".activity.LoginActivity"
-            android:label="Entrar" />
+            android:label="Entrar"/>
 
         <!-- CADASTRO DE USUÁRIO -->
         <activity
             android:name=".activity.CadastroActivity"
-            android:label="Cadastrar" />
+            android:label="Cadastrar"/>
 
         <!-- VIEW INICIAL DO ESTABELECIMENTO -->
         <activity
             android:name=".activity.EstabelecimentoActivity"
-            android:label="Estabelecimento" />
+            android:label="Estabelecimento"/>
 
         <!-- CADASTRO DE ESTABELECIMENTO -->
         <activity
             android:name=".activity.CadastroEstabelecimentoActivity"
-            android:label="Cadastrar Estabelecimento" />
+            android:label="Cadastrar Estabelecimento"/>
 
         <!-- HOME DO APP -->
         <activity
             android:name=".activity.SideNavActivity"
             android:label="Início"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <!-- VIEW PARA CRIAR LISTA -->
         <activity
             android:name=".activity.CriarMinhaListaActivity"
-            android:label="Criar minha lista" />
+            android:label="Criar minha lista"/>
 
         <!-- VIEW DE MINHA MELHOR OPÇÃO -->
         <activity
             android:name=".activity.MinhaMelhorOpcaoActivity"
-            android:label="Minha melhor opção" />
+            android:label="Minha melhor opção"/>
 
         <!-- VIEW DE PROMOÇÃO -->
         <activity
             android:name=".activity.PromocaoActivity"
-            android:label="Promoções" />
+            android:label="Promoções"/>
 
         <!-- VIEW DE HISTÓRICO DE COMPRAS -->
         <activity
             android:name=".activity.HistoricoDeComprasActivity"
-            android:label="Histórico de compras" />
+            android:label="Histórico de compras"/>
 
         <!-- VIEW ENTRAR EM CONTATO -->
         <activity
             android:name=".activity.EntrarEmContatoActivity"
-            android:label="Entrar em contato" />
+            android:label="Entrar em contato"/>
 
         <activity
             android:name=".activity.SobreActivity"
-            android:label="Sobre" />
+            android:label="Sobre"/>
     </application>
 
 </manifest>

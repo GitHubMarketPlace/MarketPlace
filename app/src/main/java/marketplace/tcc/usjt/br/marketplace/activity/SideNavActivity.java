@@ -25,7 +25,13 @@ public class SideNavActivity extends AppCompatActivity implements NavigationView
     private FirebaseAuth firebaseAuth;
     private Activity context;
     CarouselView carouselView;
-    int[] sampleImages = {R.drawable.image_1, R.drawable.image_2, R.drawable.image_3, R.drawable.image_4, R.drawable.image_5};
+    int[] sampleImages = {
+            R.drawable.image_1,
+            R.drawable.image_2,
+            R.drawable.image_3,
+            R.drawable.image_4,
+            R.drawable.image_5
+    };
     ImageListener imageListener = new ImageListener() {
         @Override
         public void setImageForPosition(int position, ImageView imageView) { imageView.setImageResource(sampleImages[position]); }
@@ -43,9 +49,7 @@ public class SideNavActivity extends AppCompatActivity implements NavigationView
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
 //      Snackbar.make(view, "Menu de pagamentos em desenvolvimento", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -92,7 +96,6 @@ public class SideNavActivity extends AppCompatActivity implements NavigationView
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            // Manda para a Home
             Intent perfil = new Intent(this, SideNavActivity.class);
             startActivity(perfil);
         } else if (id == R.id.nav_best_choice) {
