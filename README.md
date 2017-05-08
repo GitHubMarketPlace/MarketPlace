@@ -14,15 +14,14 @@ Buscamos sempre pesquisar e trazer tudo de mais novo e eficiente para dentro do 
 Gostou da idéia?
 -----------------
 
-Contado com os alunos:
-
-
   * Francisco José Olvera Junior
   * Paulo Rafael da Silva
   * Pedro Paulo Torisu
   * Rodrigo de Brito Correia
   * Thiago Ribeiro da Silva
   * Valber Figueredo Mendes Lima
+  
+  Entreem contato com os idealizadores da idéia!
 
 
 Se torne um contribuidor do projeto
