@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -52,6 +54,7 @@ public class CadastroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Instanciando variáveis do firebase
         firebaseAuth = FirebaseConfig.getFirebaseAuth();
@@ -87,6 +90,21 @@ public class CadastroActivity extends AppCompatActivity {
         cadastro_telefone.addTextChangedListener(maskTelefone);
         cadastro_estado.addTextChangedListener(maskEstado);
         cadastro_cep.addTextChangedListener(maskCep);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
     }
 
     // Método de cadastro de usuário
