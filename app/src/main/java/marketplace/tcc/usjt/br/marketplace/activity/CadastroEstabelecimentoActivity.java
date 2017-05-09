@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 
 import marketplace.tcc.usjt.br.marketplace.R;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
@@ -142,6 +143,10 @@ public class CadastroEstabelecimentoActivity extends AppCompatActivity {
         user.setEstado(cadastro_ufEmp.getText().toString());
         user.setCep(cadastro_cepEmp.getText().toString());
         user.save();
+        if (user != null){
+            DatabaseReference establishmentReference = FirebaseConfig.getFirebase();
+            establishmentReference.child("establishments").child(user.getId()).setValue(user);
+        }
     }
 
     public void createErrorDialog(String error_message){
