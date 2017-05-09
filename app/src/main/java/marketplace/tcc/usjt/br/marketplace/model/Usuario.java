@@ -8,7 +8,7 @@ import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
 public class Usuario {
 
     private String id;
-    private String  numero;
+    private String numero;
     private String nome;
     private String sobrenome;
     private String email;
