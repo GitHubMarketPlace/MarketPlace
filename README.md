@@ -20,7 +20,7 @@ Gostou da idéia?
   * Valber Figueredo Mendes Lima
   * Paulo Rafael da Silva
   
-  Entreem contato com os idealizadores da idéia!
+  Entre em contato com os idealizadores da idéia!
 
 
 Se torne um contribuidor do projeto
