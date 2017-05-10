@@ -76,11 +76,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(View view){
-        Usuario user = new Usuario();
-        user.setEmail(user_email.getText().toString());
-        user.setSenha(user_password.getText().toString());
         spinner.setVisibility(View.VISIBLE);
-        verifyLogin(user.getEmail(),user.getSenha());
+        if(user_email.getText().toString().equals("") || user_password.getText().toString().equals("")){
+            dialog_error.show();
+            spinner.setVisibility(View.GONE);
+        } else {
+            Usuario user = new Usuario();
+            user.setEmail(user_email.getText().toString());
+            user.setSenha(user_password.getText().toString());
+            verifyLogin(user.getEmail(),user.getSenha());
+        }
     }
 
     public void verifyLogin(final String email, String password){
