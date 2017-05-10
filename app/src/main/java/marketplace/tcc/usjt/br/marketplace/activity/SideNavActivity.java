@@ -34,7 +34,9 @@ public class SideNavActivity extends AppCompatActivity implements NavigationView
     };
     ImageListener imageListener = new ImageListener() {
         @Override
-        public void setImageForPosition(int position, ImageView imageView) { imageView.setImageResource(sampleImages[position]); }
+        public void setImageForPosition(int position, ImageView imageView) {
+            imageView.setImageResource(sampleImages[position]);
+        }
     };
 
     @Override
@@ -73,7 +75,7 @@ public class SideNavActivity extends AppCompatActivity implements NavigationView
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_market_back, menu);
+        getMenuInflater().inflate(R.menu.menu_market_car, menu);
         return true;
     }
 
@@ -81,12 +83,13 @@ public class SideNavActivity extends AppCompatActivity implements NavigationView
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-
-        return super.onOptionsItemSelected(item);
+        switch (id) {
+            case R.id.add_shopping:
+                Intent dialer= new Intent(this, CarrinhoActivity.class);
+                startActivity(dialer);
+                return true;
+        }
+        return onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -119,8 +122,8 @@ public class SideNavActivity extends AppCompatActivity implements NavigationView
         } else if (id == R.id.nav_logout){
             firebaseAuth = FirebaseConfig.getFirebaseAuth();
             firebaseAuth.signOut();
-            Intent login = new Intent(this, LoginActivity.class);
-            startActivity(login);
+            Intent main = new Intent(this, MainActivity.class);
+            startActivity(main);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

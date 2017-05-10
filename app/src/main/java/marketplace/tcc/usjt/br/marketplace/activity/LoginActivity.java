@@ -35,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        // Da suporte a barra de ações (seta de voltar ou infla um menu)
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -57,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         dialog_error.create();
     }
 
+    // Seta de voltar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -67,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
         return onOptionsItemSelected(item);
     }
 
+    // Seta de voltar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return super.onCreateOptionsMenu(menu);
