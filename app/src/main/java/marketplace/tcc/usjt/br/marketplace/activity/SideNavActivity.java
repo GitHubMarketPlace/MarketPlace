@@ -51,8 +51,6 @@ public class SideNavActivity extends AppCompatActivity implements NavigationView
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//      Snackbar.make(view, "Menu de pagamentos em desenvolvimento", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -97,7 +95,6 @@ public class SideNavActivity extends AppCompatActivity implements NavigationView
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nav_home) {
             Intent perfil = new Intent(this, SideNavActivity.class);
             startActivity(perfil);

@@ -19,24 +19,22 @@
         android:layout_height="80dp"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:layout_gravity="center"
-        android:src="@drawable/person_placeholder" />
+        android:src="@drawable/person_placeholder"/>
 
     <!-- NOME DO USUÁRIO -->
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/user_name_initial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nome do usuário"
         android:paddingTop="10dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:layout_gravity="center"/>
 
     <!-- E-MAIL DO USUÁRIO-->
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/user_email_initial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="email@email.com" />
+        android:layout_gravity="center"/>
 
 </LinearLayout>
