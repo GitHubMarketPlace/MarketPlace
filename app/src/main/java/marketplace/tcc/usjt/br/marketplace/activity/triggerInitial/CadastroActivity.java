@@ -1,4 +1,4 @@
-package marketplace.tcc.usjt.br.marketplace.activity;
+package marketplace.tcc.usjt.br.marketplace.activity.triggerInitial;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -196,7 +196,7 @@ public class CadastroActivity extends AppCompatActivity {
 
     // Método de roteamento para a view inicial
     public void goToHomePage(){
-        Intent intent = new Intent(this, SideNavActivity.class);
+        Intent intent = new Intent(this, InitialActivity.class);
         startActivity(intent);
     }
 

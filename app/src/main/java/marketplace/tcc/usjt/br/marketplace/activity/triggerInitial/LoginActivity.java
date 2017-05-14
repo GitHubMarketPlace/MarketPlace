@@ -1,4 +1,4 @@
-package marketplace.tcc.usjt.br.marketplace.activity;
+package marketplace.tcc.usjt.br.marketplace.activity.triggerInitial;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -119,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void goToHomePage(){
-        Intent intent = new Intent(LoginActivity.this, SideNavActivity.class);
+        Intent intent = new Intent(LoginActivity.this, InitialActivity.class);
         startActivity(intent);
         finish();
     }

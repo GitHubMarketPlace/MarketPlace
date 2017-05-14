@@ -1,4 +1,4 @@
-package marketplace.tcc.usjt.br.marketplace.activity;
+package marketplace.tcc.usjt.br.marketplace.activity.triggerInitial;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.view.View;
 import com.google.firebase.auth.FirebaseAuth;
 
 import marketplace.tcc.usjt.br.marketplace.R;
+import marketplace.tcc.usjt.br.marketplace.activity.EstabelecimentoActivity;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToHomePage(){
-        Intent intent = new Intent(MainActivity.this, SideNavActivity.class);
+        Intent intent = new Intent(MainActivity.this, InitialActivity.class);
         startActivity(intent);
         finish();
     }

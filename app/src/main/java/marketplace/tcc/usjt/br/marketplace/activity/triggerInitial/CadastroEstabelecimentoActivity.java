@@ -1,4 +1,4 @@
-package marketplace.tcc.usjt.br.marketplace.activity;
+package marketplace.tcc.usjt.br.marketplace.activity.triggerInitial;
 
 import android.content.DialogInterface;
 import android.os.Bundle;

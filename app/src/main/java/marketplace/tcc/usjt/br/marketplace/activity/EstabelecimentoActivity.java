@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import marketplace.tcc.usjt.br.marketplace.R;
+import marketplace.tcc.usjt.br.marketplace.activity.triggerInitial.CadastroEstabelecimentoActivity;
+import marketplace.tcc.usjt.br.marketplace.activity.triggerInitial.LoginActivity;
 
 public class EstabelecimentoActivity extends AppCompatActivity {
 

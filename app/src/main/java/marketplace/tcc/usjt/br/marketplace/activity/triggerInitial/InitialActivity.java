@@ -1,4 +1,4 @@
-package marketplace.tcc.usjt.br.marketplace.activity;
+package marketplace.tcc.usjt.br.marketplace.activity.triggerInitial;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,9 +19,17 @@ import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
 import marketplace.tcc.usjt.br.marketplace.R;
+import marketplace.tcc.usjt.br.marketplace.activity.CarrinhoActivity;
+import marketplace.tcc.usjt.br.marketplace.activity.CriarMinhaListaActivity;
+import marketplace.tcc.usjt.br.marketplace.activity.EntrarEmContatoActivity;
+import marketplace.tcc.usjt.br.marketplace.activity.HistoricoDeComprasActivity;
+import marketplace.tcc.usjt.br.marketplace.activity.MinhaMelhorOpcaoActivity;
+import marketplace.tcc.usjt.br.marketplace.activity.PromocaoActivity;
+import marketplace.tcc.usjt.br.marketplace.activity.SobreActivity;
+import marketplace.tcc.usjt.br.marketplace.activity.triggerCategory.CategoriasActivity;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
 
-public class SideNavActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class InitialActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth firebaseAuth;
     private Activity context;
@@ -97,7 +105,7 @@ public class SideNavActivity extends AppCompatActivity implements NavigationView
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_home) {
-            Intent perfil = new Intent(this, SideNavActivity.class);
+            Intent perfil = new Intent(this, InitialActivity.class);
             startActivity(perfil);
         } else if (id == R.id.nav_best_choice) {
             Intent myBestOption = new Intent(this, MinhaMelhorOpcaoActivity.class);
@@ -130,7 +138,7 @@ public class SideNavActivity extends AppCompatActivity implements NavigationView
     }
 
     public void openAllCategoriesList(View view) {
-        Intent categories = new Intent(this, CategoriesActivity.class);
+        Intent categories = new Intent(this, CategoriasActivity.class);
         startActivity(categories);
     }
 }

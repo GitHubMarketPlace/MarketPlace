@@ -1,8 +1,11 @@
-package marketplace.tcc.usjt.br.marketplace.activity;
+package marketplace.tcc.usjt.br.marketplace.activity.triggerCategory;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -18,21 +21,37 @@ import marketplace.tcc.usjt.br.marketplace.R;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
 import marketplace.tcc.usjt.br.marketplace.model.Categoria;
 
-public class CategoriesActivity extends AppCompatActivity {
+public class CategoriasActivity extends AppCompatActivity {
 
     private ListView categoryList;
     private ProgressBar spinner;
+    private Activity context;
+    private DatabaseReference reference;
+    private Bundle params;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_categories);
-        DatabaseReference reference = FirebaseConfig.getFirebase().child("categories");
+        setContentView(R.layout.activity_categorias);
+        context = this;
+        reference = FirebaseConfig.getFirebase().child("categories");
         final ArrayList<String> list = new ArrayList<>();
-        final ArrayList<Categoria> listTeste = new ArrayList<Categoria>();
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_selectable_list_item, list);
         categoryList = (ListView)findViewById(R.id.lista_categorias);
         categoryList.setAdapter(adapter);
+        categoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Cria uma interface bundle (tipo hashmap) para passar o nome da categoria para o intent
+                params = new Bundle();
+                params.putString("nomeCategoria", list.get(position));
+                // Passa o nome da categoria para a view de detalhe
+                Intent detalheCategoria = new Intent(context, DetalheCategoriaActivity.class);
+                detalheCategoria.putExtras(params);
+                startActivity(detalheCategoria);
+            }
+        });
+
         spinner = (ProgressBar)findViewById(R.id.progressBar3);
 
         reference.addChildEventListener(new ChildEventListener() {
@@ -65,26 +84,5 @@ public class CategoriesActivity extends AppCompatActivity {
 
             }
         });
-
-        // TESTANDO PEGAR JSON PARA MANDAR PARA REDE NEURAL
-//        reference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                // Pega todos os filhos de categories
-//                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
-//
-//                for (DataSnapshot child: children) {
-//                    Categoria categoria = child.getValue(Categoria.class);
-//                    listTeste.add(categoria);
-//                }
-//                Log.i("FIREBASE_INFO", String.valueOf(listTeste));
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-
     }
 }

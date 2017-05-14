@@ -12,6 +12,7 @@ public class Produto {
     private String valor;
     private String valor_promocao;
     private String nome_proprietario;
+    private String categoria;
 
     public Produto() {
     }
@@ -39,5 +40,8 @@ public class Produto {
 
     public String getValor_promocao() { return valor_promocao; }
     public void setValor_promocao(String valor_promocao) { this.valor_promocao = valor_promocao; }
+
+    public String getCategoria() { return categoria; }
+    public void setCategoria(String categoria) { this.categoria = categoria; }
 }
 
