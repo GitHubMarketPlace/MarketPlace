@@ -279,7 +279,9 @@
                                     android:src="@drawable/icon_add"
                                     app:civ_fill_color="#FFFFFF"
                                     android:layout_alignParentLeft="true"
-                                    android:layout_centerVertical="true"/>
+                                    android:layout_centerVertical="true"
+                                    android:onClick="openAllCategoriesList"
+                                    android:clickable="true"/>
                             </TableRow>
                             <TableRow>
                                 <TextView

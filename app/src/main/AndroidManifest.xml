@@ -77,6 +77,11 @@
         <activity
             android:name=".activity.CarrinhoActivity"
             android:label="Carrinho" />
+
+        <!-- LISTA DE CATEGORIAS -->
+        <activity
+            android:name=".activity.CategoriesActivity"
+            android:label="Categorias" />
     </application>
 
 </manifest>
