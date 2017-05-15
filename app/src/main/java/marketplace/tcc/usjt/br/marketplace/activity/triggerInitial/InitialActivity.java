@@ -27,20 +27,17 @@ import marketplace.tcc.usjt.br.marketplace.activity.MinhaMelhorOpcaoActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.PromocaoActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.SobreActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.triggerCategory.CategoriasActivity;
+import marketplace.tcc.usjt.br.marketplace.activity.triggerCategory.DetalheCategoriaActivity;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
 
 public class InitialActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth firebaseAuth;
     private Activity context;
-    CarouselView carouselView;
-    int[] sampleImages = {
-            R.drawable.image_1,
-            R.drawable.image_2,
-            R.drawable.image_3,
-            R.drawable.image_4,
-            R.drawable.image_5
-    };
+    private CarouselView carouselView;
+    private int[] sampleImages = { R.drawable.image_1,  R.drawable.image_2,  R.drawable.image_3,  R.drawable.image_4,  R.drawable.image_5 };
+    private Bundle params;
+
     ImageListener imageListener = new ImageListener() {
         @Override
         public void setImageForPosition(int position, ImageView imageView) {
@@ -142,5 +139,53 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
     public void openAllCategoriesList(View view) {
         Intent categories = new Intent(this, CategoriasActivity.class);
         startActivity(categories);
+    }
+
+    public void openAcougueCategory(View view) {
+        Intent products = new Intent(this, DetalheCategoriaActivity.class);
+        params = new Bundle();
+        params.putString("nomeCategoria", "Açougue");
+        products.putExtras(params);
+        startActivity(products);
+    }
+
+    public void openBebidasCategory(View view) {
+        Intent products = new Intent(this, DetalheCategoriaActivity.class);
+        params = new Bundle();
+        params.putString("nomeCategoria", "Bebidas");
+        products.putExtras(params);
+        startActivity(products);
+    }
+
+    public void openHortifrutiCategory(View view) {
+        Intent products = new Intent(this, DetalheCategoriaActivity.class);
+        params = new Bundle();
+        params.putString("nomeCategoria", "Hortifruti");
+        products.putExtras(params);
+        startActivity(products);
+    }
+
+    public void openLimpezaCategory(View view) {
+        Intent products = new Intent(this, DetalheCategoriaActivity.class);
+        params = new Bundle();
+        params.putString("nomeCategoria", "Produtos de limpeza");
+        products.putExtras(params);
+        startActivity(products);
+    }
+
+    public void openLaticiniosCategory(View view) {
+        Intent products = new Intent(this, DetalheCategoriaActivity.class);
+        params = new Bundle();
+        params.putString("nomeCategoria", "Laticínios");
+        products.putExtras(params);
+        startActivity(products);
+    }
+
+    public void openAdegaCategory(View view) {
+        Intent products = new Intent(this, DetalheCategoriaActivity.class);
+        params = new Bundle();
+        params.putString("nomeCategoria", "Adega");
+        products.putExtras(params);
+        startActivity(products);
     }
 }
