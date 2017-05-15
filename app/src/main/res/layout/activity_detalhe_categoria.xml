@@ -47,8 +47,6 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="17dp"
                         android:layout_marginTop="5dp"
-                        android:clickable="true"
-                        android:onClick="openAllCategoriesList"
                         android:src="@drawable/icon_add"
                         app:civ_fill_color="#FFFFFF" />
 

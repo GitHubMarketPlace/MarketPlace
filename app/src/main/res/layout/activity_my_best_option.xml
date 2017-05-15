@@ -40,7 +40,7 @@
             android:text="Preparamos está lista especialmente para você!"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
             android:textColor="#FFFFFF"
-            android:textSize="18dp" />
+            android:textSize="15dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
