@@ -1,5 +1,6 @@
 package marketplace.tcc.usjt.br.marketplace.activity.triggerCategory;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,7 @@ public class DetalheCategoriaActivity extends AppCompatActivity {
     private TextView labelQuatidade;
     private ProgressBar spinner;
     private ListView productList;
+    private Activity context;
     private DatabaseReference reference;
     private Query queryRef;
 
@@ -37,6 +39,7 @@ public class DetalheCategoriaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhe_categoria);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        context = this;
 
         nomeCategoria = (TextView) findViewById(R.id.nome_categoria);
         spinner = (ProgressBar)findViewById(R.id.progressBar4);
