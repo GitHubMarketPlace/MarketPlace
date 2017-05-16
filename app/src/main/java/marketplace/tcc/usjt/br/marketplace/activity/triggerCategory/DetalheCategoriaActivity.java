@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,6 +48,7 @@ public class DetalheCategoriaActivity extends AppCompatActivity {
         // Estrutura da lista de produtos
         final ArrayList<String> list = new ArrayList<>();
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_selectable_list_item, list);
+//        final ProdutoCategoriaAdapter adapter = new ProdutoCategoriaAdapter(list, this);
         productList = (ListView)findViewById(R.id.lista_produtos_categoria);
         productList.setAdapter(adapter);
 
@@ -75,6 +77,8 @@ public class DetalheCategoriaActivity extends AppCompatActivity {
                         labelQuatidade = (TextView) findViewById(R.id.label_quantidade);
                         String quantidade = "Quantidade de produtos: " + list.size();
                         labelQuatidade.setText(quantidade);
+
+                        Log.i("PRODUTO_FIREBASE", produto.toString());
                     }
 
                     @Override

@@ -38,6 +38,7 @@ public class CategoriasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categorias);
         context = this;
+
         // Cria uma referência a tabela de categories
         reference = FirebaseConfig.getFirebase().child("categories");
 
@@ -46,13 +47,16 @@ public class CategoriasActivity extends AppCompatActivity {
         final CategoriaApapter adapter = new CategoriaApapter(list, this);
         categoryList = (ListView)findViewById(R.id.lista_categorias);
         categoryList.setAdapter(adapter);
+
         // Evento de clicar na lista
         categoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 // Cria uma interface bundle (tipo hashmap) para passar o nome da categoria para o intent
                 params = new Bundle();
                 params.putString("nomeCategoria", list.get(position).getNome());
+
                 // Passa o nome da categoria para a view de detalhe
                 Intent detalheCategoria = new Intent(context, DetalheCategoriaActivity.class);
                 detalheCategoria.putExtras(params);

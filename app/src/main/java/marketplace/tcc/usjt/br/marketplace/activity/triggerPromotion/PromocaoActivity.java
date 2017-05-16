@@ -53,11 +53,13 @@ public class PromocaoActivity extends AppCompatActivity {
         categoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 // Cria uma interface bundle (tipo hashmap) para passar o nome da categoria para o intent
                 params = new Bundle();
                 params.putString("nomeCategoria", list.get(position).getNome());
+
                 // Passa o nome da categoria para a view de detalhe
-                Intent detalheCategoria = new Intent(context, DetalheCategoriaPromocaoActivity.class);
+                Intent detalheCategoria = new Intent(context, DetalheCategoriaActivity.class);
                 detalheCategoria.putExtras(params);
                 startActivity(detalheCategoria);
             }
