@@ -1,4 +1,4 @@
-package marketplace.tcc.usjt.br.marketplace.activity.triggerCategory;
+package marketplace.tcc.usjt.br.marketplace.activity.triggerPromotion;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,11 +21,12 @@ import java.util.ArrayList;
 
 import marketplace.tcc.usjt.br.marketplace.R;
 import marketplace.tcc.usjt.br.marketplace.activity.CarrinhoActivity;
+import marketplace.tcc.usjt.br.marketplace.activity.triggerCategory.DetalheCategoriaActivity;
 import marketplace.tcc.usjt.br.marketplace.adapter.CategoriaApapter;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
 import marketplace.tcc.usjt.br.marketplace.model.Categoria;
 
-public class CategoriasActivity extends AppCompatActivity {
+public class PromocaoActivity extends AppCompatActivity {
 
     private ListView categoryList;
     private ProgressBar spinner;
@@ -36,16 +37,18 @@ public class CategoriasActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_categorias);
+        setContentView(R.layout.activity_promocao);
         context = this;
+
         // Cria uma referência a tabela de categories
         reference = FirebaseConfig.getFirebase().child("categories");
 
         // Estruturando a lista
         final ArrayList<Categoria> list = new ArrayList<>();
         final CategoriaApapter adapter = new CategoriaApapter(list, this);
-        categoryList = (ListView)findViewById(R.id.lista_categorias);
+        categoryList = (ListView)findViewById(R.id.lista_categorias_promocao);
         categoryList.setAdapter(adapter);
+
         // Evento de clicar na lista
         categoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -54,13 +57,13 @@ public class CategoriasActivity extends AppCompatActivity {
                 params = new Bundle();
                 params.putString("nomeCategoria", list.get(position).getNome());
                 // Passa o nome da categoria para a view de detalhe
-                Intent detalheCategoria = new Intent(context, DetalheCategoriaActivity.class);
+                Intent detalheCategoria = new Intent(context, DetalheCategoriaPromocaoActivity.class);
                 detalheCategoria.putExtras(params);
                 startActivity(detalheCategoria);
             }
         });
 
-        spinner = (ProgressBar)findViewById(R.id.progressBar3);
+        spinner = (ProgressBar)findViewById(R.id.progressBar5);
 
         reference.addChildEventListener(new ChildEventListener() {
             @Override
@@ -114,3 +117,5 @@ public class CategoriasActivity extends AppCompatActivity {
         return onOptionsItemSelected(item);
     }
 }
+
+

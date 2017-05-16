@@ -24,7 +24,7 @@ import marketplace.tcc.usjt.br.marketplace.activity.CriarMinhaListaActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.EntrarEmContatoActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.HistoricoDeComprasActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.MinhaMelhorOpcaoActivity;
-import marketplace.tcc.usjt.br.marketplace.activity.PromocaoActivity;
+import marketplace.tcc.usjt.br.marketplace.activity.triggerPromotion.PromocaoActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.SobreActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.triggerCategory.CategoriasActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.triggerCategory.DetalheCategoriaActivity;
