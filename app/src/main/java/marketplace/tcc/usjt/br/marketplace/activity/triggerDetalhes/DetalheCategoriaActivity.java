@@ -22,7 +22,7 @@ import com.google.firebase.database.Query;
 import java.util.ArrayList;
 
 import marketplace.tcc.usjt.br.marketplace.R;
-import marketplace.tcc.usjt.br.marketplace.activity.CarrinhoActivity;
+import marketplace.tcc.usjt.br.marketplace.activity.triggerGlobal.CarrinhoActivity;
 import marketplace.tcc.usjt.br.marketplace.adapter.ProdutoCategoriaAdapter;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
 import marketplace.tcc.usjt.br.marketplace.model.Produto;

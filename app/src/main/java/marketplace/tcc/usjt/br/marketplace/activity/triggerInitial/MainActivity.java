@@ -8,7 +8,7 @@ import android.view.View;
 import com.google.firebase.auth.FirebaseAuth;
 
 import marketplace.tcc.usjt.br.marketplace.R;
-import marketplace.tcc.usjt.br.marketplace.activity.EstabelecimentoActivity;
+import marketplace.tcc.usjt.br.marketplace.activity.triggerGlobal.InitialActivity;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
 
 public class MainActivity extends AppCompatActivity {

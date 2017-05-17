@@ -56,7 +56,6 @@
                         android:layout_marginTop="20dp">
 
                         <TableRow>
-
                             <TextView
                                 android:id="@+id/nome_categoria"
                                 android:layout_width="wrap_content"
@@ -69,7 +68,6 @@
                         </TableRow>
 
                         <TableRow>
-
                             <TextView
                                 android:id="@+id/label_quantidade"
                                 android:layout_width="match_parent"

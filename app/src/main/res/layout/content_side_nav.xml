@@ -6,9 +6,10 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="56.2dp"
-    android:background="#e4dcdc"
+    android:background="#ffffff"
     android:orientation="vertical"
     tools:context="marketplace.tcc.usjt.br.marketplace.fragment.InitialFragment">
+    <!--android:background="#e4dcdc"-->
 
     <ScrollView
         android:id="@+id/form"

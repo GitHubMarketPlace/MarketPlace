@@ -26,56 +26,29 @@
 
         <!-- CADASTRO DE USUÁRIO -->
         <activity
-            android:name=".activity.triggerInitial.CadastroActivity"
+            android:name=".activity.triggerCadastro.CadastroActivity"
             android:label="Cadastrar" />
 
         <!-- VIEW INICIAL DO ESTABELECIMENTO -->
         <activity
-            android:name=".activity.EstabelecimentoActivity"
+            android:name=".activity.triggerInitial.EstabelecimentoActivity"
             android:label="Estabelecimento" />
 
         <!-- CADASTRO DE ESTABELECIMENTO -->
         <activity
-            android:name=".activity.triggerInitial.CadastroEstabelecimentoActivity"
+            android:name=".activity.triggerCadastro.CadastroEstabelecimentoActivity"
             android:label="Cadastrar Estabelecimento" />
 
         <!-- HOME DO APP -->
         <activity
-            android:name=".activity.triggerInitial.InitialActivity"
+            android:name=".activity.triggerGlobal.InitialActivity"
             android:label="Início"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <!-- VIEW PARA CRIAR LISTA -->
-        <activity
-            android:name=".activity.CriarMinhaListaActivity"
-            android:label="Criar minha lista" />
-
-        <!-- VIEW DE MINHA MELHOR OPÇÃO -->
-        <activity
-            android:name=".activity.MinhaMelhorOpcaoActivity"
-            android:label="Minha melhor opção" />
-
-        <!-- VIEW DE PROMOÇÃO -->
-
-        <!-- VIEW DE HISTÓRICO DE COMPRAS -->
-        <activity
-            android:name=".activity.HistoricoDeComprasActivity"
-            android:label="Histórico de compras" />
-
-        <!-- VIEW ENTRAR EM CONTATO -->
-        <activity
-            android:name=".activity.EntrarEmContatoActivity"
-            android:label="Entrar em contato" />
-        <activity
-            android:name=".activity.SobreActivity"
-            android:label="Sobre" />
-
         <!-- CARRINHO -->
         <activity
-            android:name=".activity.CarrinhoActivity"
+            android:name=".activity.triggerGlobal.CarrinhoActivity"
             android:label="Carrinho" />
-
-        <!-- LISTA DE CATEGORIAS -->
 
         <!-- DETALHE DA CATEGORIA -->
         <activity

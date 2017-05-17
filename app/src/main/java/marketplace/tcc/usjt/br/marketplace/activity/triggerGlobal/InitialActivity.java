@@ -1,4 +1,4 @@
-package marketplace.tcc.usjt.br.marketplace.activity.triggerInitial;
+package marketplace.tcc.usjt.br.marketplace.activity.triggerGlobal;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -20,17 +20,17 @@ import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
 import marketplace.tcc.usjt.br.marketplace.R;
-import marketplace.tcc.usjt.br.marketplace.activity.CarrinhoActivity;
-import marketplace.tcc.usjt.br.marketplace.activity.CriarMinhaListaActivity;
-import marketplace.tcc.usjt.br.marketplace.activity.EntrarEmContatoActivity;
-import marketplace.tcc.usjt.br.marketplace.activity.HistoricoDeComprasActivity;
-import marketplace.tcc.usjt.br.marketplace.activity.SobreActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.triggerDetalhes.DetalheCategoriaActivity;
+import marketplace.tcc.usjt.br.marketplace.activity.triggerInitial.MainActivity;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
 import marketplace.tcc.usjt.br.marketplace.fragment.CategoriaFragment;
+import marketplace.tcc.usjt.br.marketplace.fragment.CriarMinhaListaFragment;
+import marketplace.tcc.usjt.br.marketplace.fragment.EntrarEmContatoFragment;
+import marketplace.tcc.usjt.br.marketplace.fragment.HistoricoDeComprasFragment;
 import marketplace.tcc.usjt.br.marketplace.fragment.InitialFragment;
 import marketplace.tcc.usjt.br.marketplace.fragment.MinhaMelhorOpcaoFragment;
 import marketplace.tcc.usjt.br.marketplace.fragment.PromocaoFragment;
+import marketplace.tcc.usjt.br.marketplace.fragment.SobreFragment;
 
 public class InitialActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -39,6 +39,8 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
     private CarouselView carouselView;
     private int[] sampleImages = { R.drawable.image_1,  R.drawable.image_2,  R.drawable.image_3,  R.drawable.image_4,  R.drawable.image_5 };
     private Bundle params;
+    private String bar;
+    private Toolbar toolbar;
 
     ImageListener imageListener = new ImageListener() {
         @Override
@@ -58,7 +60,7 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
         carouselView.setPageCount(sampleImages.length);
         carouselView.setImageListener(imageListener);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -69,9 +71,6 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-
-
 
         displaySelectedScreen(R.id.nav_home);
 
@@ -121,33 +120,51 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
             InitialFragment fragment = new InitialFragment();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.layout_for_fragment, fragment, fragment.getTag()).commit();
+            bar = "Início";
             carouselView.setVisibility(View.VISIBLE);
+
         } else if (id == R.id.nav_best_choice) {
             MinhaMelhorOpcaoFragment fragment = new MinhaMelhorOpcaoFragment();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.layout_for_fragment, fragment, fragment.getTag()).commit();
+            bar = "Minha melhor opção";
             carouselView.setVisibility(View.INVISIBLE);
+
         } else if (id == R.id.nav_my_list) {
-            Intent createMyList = new Intent(this, CriarMinhaListaActivity.class);
-            startActivity(createMyList);
+            CriarMinhaListaFragment fragment = new CriarMinhaListaFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.layout_for_fragment, fragment, fragment.getTag()).commit();
+            bar = "Criar minha lista";
             carouselView.setVisibility(View.INVISIBLE);
+
         } else if (id == R.id.nav_promotions) {
             PromocaoFragment fragment = new PromocaoFragment();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.layout_for_fragment, fragment, fragment.getTag()).commit();
+            bar = "Promoções";
             carouselView.setVisibility(View.INVISIBLE);
+
         } else if (id == R.id.nav_history) {
-            Intent history = new Intent(this, HistoricoDeComprasActivity.class);
-            startActivity(history);
+            HistoricoDeComprasFragment fragment = new HistoricoDeComprasFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.layout_for_fragment, fragment, fragment.getTag()).commit();
+            bar = "Histórico de compras";
             carouselView.setVisibility(View.INVISIBLE);
+
         } else if (id == R.id.nav_contact) {
-            Intent contact = new Intent(this, EntrarEmContatoActivity.class);
-            startActivity(contact);
+            EntrarEmContatoFragment fragment = new EntrarEmContatoFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.layout_for_fragment, fragment, fragment.getTag()).commit();
+            bar = "Contato";
             carouselView.setVisibility(View.INVISIBLE);
+
         } else if (id == R.id.nav_about) {
-            Intent about = new Intent(this, SobreActivity.class);
-            startActivity(about);
+            SobreFragment fragment = new SobreFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.layout_for_fragment, fragment, fragment.getTag()).commit();
+            bar = "Sobre";
             carouselView.setVisibility(View.INVISIBLE);
+
         } else if (id == R.id.nav_logout){
             firebaseAuth = FirebaseConfig.getFirebaseAuth();
             firebaseAuth.signOut();
@@ -156,17 +173,18 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
             carouselView.setVisibility(View.INVISIBLE);
         }
 
+        toolbar.setTitle(bar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
-
-
 
     public void openAllCategoriesList(View view) {
         CategoriaFragment fragment = new CategoriaFragment();
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().replace(R.id.layout_for_fragment, fragment, fragment.getTag()).commit();
+        bar = "Categorias";
         carouselView.setVisibility(View.INVISIBLE);
+        toolbar.setTitle(bar);
     }
 
     public void openAcougueCategory(View view) {

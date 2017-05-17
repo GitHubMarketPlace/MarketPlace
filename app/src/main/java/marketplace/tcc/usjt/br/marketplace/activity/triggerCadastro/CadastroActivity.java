@@ -1,4 +1,4 @@
-package marketplace.tcc.usjt.br.marketplace.activity.triggerInitial;
+package marketplace.tcc.usjt.br.marketplace.activity.triggerCadastro;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 
 import marketplace.tcc.usjt.br.marketplace.R;
+import marketplace.tcc.usjt.br.marketplace.activity.triggerGlobal.InitialActivity;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
 import marketplace.tcc.usjt.br.marketplace.model.Usuario;
 

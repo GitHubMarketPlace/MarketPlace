@@ -1,4 +1,4 @@
-package marketplace.tcc.usjt.br.marketplace.activity;
+package marketplace.tcc.usjt.br.marketplace.activity.triggerInitial;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,8 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import marketplace.tcc.usjt.br.marketplace.R;
-import marketplace.tcc.usjt.br.marketplace.activity.triggerInitial.CadastroEstabelecimentoActivity;
-import marketplace.tcc.usjt.br.marketplace.activity.triggerInitial.LoginActivity;
+import marketplace.tcc.usjt.br.marketplace.activity.triggerCadastro.CadastroEstabelecimentoActivity;
 
 public class EstabelecimentoActivity extends AppCompatActivity {
 

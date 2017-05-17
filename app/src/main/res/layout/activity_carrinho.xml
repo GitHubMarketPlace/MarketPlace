@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="marketplace.tcc.usjt.br.marketplace.activity.CarrinhoActivity">
+    tools:context="marketplace.tcc.usjt.br.marketplace.activity.triggerGlobal.CarrinhoActivity">
 
 </android.support.constraint.ConstraintLayout>

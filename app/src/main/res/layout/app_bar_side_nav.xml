@@ -9,7 +9,7 @@
     android:orientation="vertical"
     android:fitsSystemWindows="true"
     android:background="#ffffff"
-    tools:context="marketplace.tcc.usjt.br.marketplace.activity.triggerInitial.InitialActivity">
+    tools:context="marketplace.tcc.usjt.br.marketplace.activity.triggerGlobal.InitialActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

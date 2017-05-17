@@ -1,4 +1,4 @@
-package marketplace.tcc.usjt.br.marketplace.activity.triggerInitial;
+package marketplace.tcc.usjt.br.marketplace.activity.triggerCadastro;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
