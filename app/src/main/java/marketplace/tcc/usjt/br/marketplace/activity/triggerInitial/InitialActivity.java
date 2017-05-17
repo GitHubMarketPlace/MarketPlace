@@ -13,8 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageListener;
 
 import marketplace.tcc.usjt.br.marketplace.R;
 import marketplace.tcc.usjt.br.marketplace.activity.CarrinhoActivity;
@@ -33,16 +36,16 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
 
     private FirebaseAuth firebaseAuth;
     private Activity context;
-//    private CarouselView carouselView;
-//    private int[] sampleImages = { R.drawable.image_1,  R.drawable.image_2,  R.drawable.image_3,  R.drawable.image_4,  R.drawable.image_5 };
+    private CarouselView carouselView;
+    private int[] sampleImages = { R.drawable.image_1,  R.drawable.image_2,  R.drawable.image_3,  R.drawable.image_4,  R.drawable.image_5 };
     private Bundle params;
 
-//    ImageListener imageListener = new ImageListener() {
-//        @Override
-//        public void setImageForPosition(int position, ImageView imageView) {
-//            imageView.setImageResource(sampleImages[position]);
-//        }
-//    };
+    ImageListener imageListener = new ImageListener() {
+        @Override
+        public void setImageForPosition(int position, ImageView imageView) {
+            imageView.setImageResource(sampleImages[position]);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +53,10 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
         setContentView(R.layout.activity_side_nav);
         context = this;
 
-//         Carrossel
-//        carouselView = (CarouselView) findViewById(carouselView);
-//        carouselView.setPageCount(sampleImages.length);
-//        carouselView.setImageListener(imageListener);
+        // Carrossel
+        carouselView = (CarouselView) findViewById(R.id.carouselView);
+        carouselView.setPageCount(sampleImages.length);
+        carouselView.setImageListener(imageListener);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -66,6 +69,9 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
 
         displaySelectedScreen(R.id.nav_home);
 
@@ -115,31 +121,38 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
             InitialFragment fragment = new InitialFragment();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.layout_for_fragment, fragment, fragment.getTag()).commit();
+            carouselView.setVisibility(View.VISIBLE);
         } else if (id == R.id.nav_best_choice) {
             MinhaMelhorOpcaoFragment fragment = new MinhaMelhorOpcaoFragment();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.layout_for_fragment, fragment, fragment.getTag()).commit();
-
+            carouselView.setVisibility(View.INVISIBLE);
         } else if (id == R.id.nav_my_list) {
             Intent createMyList = new Intent(this, CriarMinhaListaActivity.class);
             startActivity(createMyList);
+            carouselView.setVisibility(View.INVISIBLE);
         } else if (id == R.id.nav_promotions) {
             Intent promotion = new Intent(this, PromocaoActivity.class);
             startActivity(promotion);
+            carouselView.setVisibility(View.INVISIBLE);
         } else if (id == R.id.nav_history) {
             Intent history = new Intent(this, HistoricoDeComprasActivity.class);
             startActivity(history);
+            carouselView.setVisibility(View.INVISIBLE);
         } else if (id == R.id.nav_contact) {
             Intent contact = new Intent(this, EntrarEmContatoActivity.class);
             startActivity(contact);
+            carouselView.setVisibility(View.INVISIBLE);
         } else if (id == R.id.nav_about) {
             Intent about = new Intent(this, SobreActivity.class);
             startActivity(about);
+            carouselView.setVisibility(View.INVISIBLE);
         } else if (id == R.id.nav_logout){
             firebaseAuth = FirebaseConfig.getFirebaseAuth();
             firebaseAuth.signOut();
             Intent main = new Intent(this, MainActivity.class);
             startActivity(main);
+            carouselView.setVisibility(View.INVISIBLE);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

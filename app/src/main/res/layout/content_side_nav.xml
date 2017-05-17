@@ -1,25 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_for_fragment"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:id="@+id/layout_for_fragment"
     android:layout_marginTop="56.2dp"
-    android:background="#e4dcdc">
+    android:background="#e4dcdc"
+    android:orientation="vertical"
+    tools:context="marketplace.tcc.usjt.br.marketplace.fragment.InitialFragment">
 
-    <com.synnapps.carouselview.CarouselView
-        android:id="@+id/carouselView"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:fillColor="#FFFFFFFF"
-        app:pageColor="#00000000"
-        app:radius="3dp"
-        app:slideInterval="4000"
-        app:strokeColor="#FF777777"
-        app:strokeWidth="1dp" />
+    <ScrollView
+        android:id="@+id/form"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:fastScrollAlwaysVisible="false">
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.synnapps.carouselview.CarouselView
+                android:id="@+id/carouselView"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                app:fillColor="#FFFFFFFF"
+                app:pageColor="#00000000"
+                app:radius="3dp"
+                app:slideInterval="4000"
+                app:strokeColor="#FF777777"
+                app:strokeWidth="1dp" />
+
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>
 
 
