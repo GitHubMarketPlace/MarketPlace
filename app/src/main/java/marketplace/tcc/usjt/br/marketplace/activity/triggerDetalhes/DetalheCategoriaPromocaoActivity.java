@@ -1,4 +1,4 @@
-package marketplace.tcc.usjt.br.marketplace.activity.triggerPromotion;
+package marketplace.tcc.usjt.br.marketplace.activity.triggerDetalhes;
 
 import android.app.Activity;
 import android.content.Intent;

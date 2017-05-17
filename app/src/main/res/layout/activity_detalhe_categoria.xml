@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="marketplace.tcc.usjt.br.marketplace.activity.triggerCategory.DetalheCategoriaActivity">
+    tools:context="marketplace.tcc.usjt.br.marketplace.activity.triggerDetalhes.DetalheCategoriaActivity">
 
     <ProgressBar
         android:id="@+id/progressBar4"

@@ -1,4 +1,4 @@
-package marketplace.tcc.usjt.br.marketplace.activity.triggerCategory;
+package marketplace.tcc.usjt.br.marketplace.activity.triggerDetalhes;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
@@ -21,6 +22,7 @@ import com.google.firebase.database.Query;
 import java.util.ArrayList;
 
 import marketplace.tcc.usjt.br.marketplace.R;
+import marketplace.tcc.usjt.br.marketplace.activity.CarrinhoActivity;
 import marketplace.tcc.usjt.br.marketplace.adapter.ProdutoCategoriaAdapter;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
 import marketplace.tcc.usjt.br.marketplace.model.Produto;
@@ -103,13 +105,19 @@ public class DetalheCategoriaActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
+            case R.id.add_shopping:
+                Intent dialer= new Intent(this, CarrinhoActivity.class);
+                startActivity(dialer);
+                return true;
         }
         return onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_market_car, menu);
+        return true;
     }
 
 }

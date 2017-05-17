@@ -26,11 +26,11 @@ import marketplace.tcc.usjt.br.marketplace.activity.EntrarEmContatoActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.HistoricoDeComprasActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.SobreActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.triggerCategory.CategoriasActivity;
-import marketplace.tcc.usjt.br.marketplace.activity.triggerCategory.DetalheCategoriaActivity;
-import marketplace.tcc.usjt.br.marketplace.activity.triggerPromotion.PromocaoActivity;
+import marketplace.tcc.usjt.br.marketplace.activity.triggerDetalhes.DetalheCategoriaActivity;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
 import marketplace.tcc.usjt.br.marketplace.fragment.InitialFragment;
 import marketplace.tcc.usjt.br.marketplace.fragment.MinhaMelhorOpcaoFragment;
+import marketplace.tcc.usjt.br.marketplace.fragment.PromocaoFragment;
 
 public class InitialActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -132,8 +132,9 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
             startActivity(createMyList);
             carouselView.setVisibility(View.INVISIBLE);
         } else if (id == R.id.nav_promotions) {
-            Intent promotion = new Intent(this, PromocaoActivity.class);
-            startActivity(promotion);
+            PromocaoFragment fragment = new PromocaoFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.layout_for_fragment, fragment, fragment.getTag()).commit();
             carouselView.setVisibility(View.INVISIBLE);
         } else if (id == R.id.nav_history) {
             Intent history = new Intent(this, HistoricoDeComprasActivity.class);

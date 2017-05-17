@@ -56,9 +56,6 @@
             android:label="Minha melhor opção" />
 
         <!-- VIEW DE PROMOÇÃO -->
-        <activity
-            android:name=".activity.triggerPromotion.PromocaoActivity"
-            android:label="Promoções" />
 
         <!-- VIEW DE HISTÓRICO DE COMPRAS -->
         <activity
@@ -85,12 +82,12 @@
 
         <!-- DETALHE DA CATEGORIA -->
         <activity
-            android:name=".activity.triggerCategory.DetalheCategoriaActivity"
+            android:name=".activity.triggerDetalhes.DetalheCategoriaActivity"
             android:label="Detalhe da Categoria" />
 
         <!-- DETALHE DA CATEGORIA - PROMOCAO -->
         <activity
-            android:name=".activity.triggerPromotion.DetalheCategoriaPromocaoActivity"
+            android:name=".activity.triggerDetalhes.DetalheCategoriaPromocaoActivity"
             android:label="Detalhe da Categoria"/>
     </application>
 

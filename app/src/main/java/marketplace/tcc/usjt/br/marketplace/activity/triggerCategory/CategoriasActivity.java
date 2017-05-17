@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import marketplace.tcc.usjt.br.marketplace.R;
 import marketplace.tcc.usjt.br.marketplace.activity.CarrinhoActivity;
+import marketplace.tcc.usjt.br.marketplace.activity.triggerDetalhes.DetalheCategoriaActivity;
 import marketplace.tcc.usjt.br.marketplace.adapter.CategoriaApapter;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
 import marketplace.tcc.usjt.br.marketplace.model.Categoria;
