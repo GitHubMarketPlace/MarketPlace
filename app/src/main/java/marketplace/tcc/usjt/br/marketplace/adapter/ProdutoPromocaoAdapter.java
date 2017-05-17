@@ -2,6 +2,7 @@ package marketplace.tcc.usjt.br.marketplace.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +15,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import marketplace.tcc.usjt.br.marketplace.R;
 import marketplace.tcc.usjt.br.marketplace.model.Produto;
 
-
-public class ProdutoCategoriaAdapter extends BaseAdapter {
+public class ProdutoPromocaoAdapter extends BaseAdapter {
 
     private final ArrayList<Produto> produtos;
     private final Activity context;
 
-    public ProdutoCategoriaAdapter(ArrayList<Produto> produtos, Activity context) {
+    public ProdutoPromocaoAdapter(ArrayList<Produto> produtos, Activity context) {
         this.produtos = produtos;
         this.context = context;
     }
@@ -45,7 +45,7 @@ public class ProdutoCategoriaAdapter extends BaseAdapter {
         View view = convertView;
 
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.item_lista_produto_categoria, parent, false);
+        view = inflater.inflate(R.layout.item_lista_produto_promocao, parent, false);
 
         Produto produto = produtos.get(position);
 
@@ -53,8 +53,10 @@ public class ProdutoCategoriaAdapter extends BaseAdapter {
         TextView nomeProduto = (TextView)view.findViewById(R.id.item_lista_produto_nome);
         TextView valorProduto = (TextView)view.findViewById(R.id.item_lista_produto_preco);
 
+        String colorText= "De " + "<font color=\"#E72A02\"><bold>" + "R$ " + produto.getValor().toString() + "</bold></font>" + " por " + "<font color=\"#159800\"><bold>" + "R$ " + produto.getValor_promocao().toString() + "</bold></font>";
+
         nomeProduto.setText(produto.getNome().toString());
-        valorProduto.setText("R$ " + produto.getValor().toString());
+        valorProduto.setText(Html.fromHtml(colorText));
         fotoProduto.setImageResource(R.drawable.ic_star);
 
         return view;

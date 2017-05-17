@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,6 +20,7 @@ import com.google.firebase.database.Query;
 import java.util.ArrayList;
 
 import marketplace.tcc.usjt.br.marketplace.R;
+import marketplace.tcc.usjt.br.marketplace.adapter.ProdutoPromocaoAdapter;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
 import marketplace.tcc.usjt.br.marketplace.model.Produto;
 
@@ -45,8 +45,8 @@ public class DetalheCategoriaPromocaoActivity extends AppCompatActivity {
         spinner = (ProgressBar)findViewById(R.id.progressBar6);
 
         // Estrutura da lista de produtos
-        final ArrayList<String> list = new ArrayList<>();
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_selectable_list_item, list);
+        final ArrayList<Produto> list = new ArrayList<>();
+        final ProdutoPromocaoAdapter adapter = new ProdutoPromocaoAdapter(list, this);
         productList = (ListView)findViewById(R.id.lista_produtos_categoria);
         productList.setAdapter(adapter);
 
@@ -67,13 +67,13 @@ public class DetalheCategoriaPromocaoActivity extends AppCompatActivity {
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                         spinner.setVisibility(View.VISIBLE);
                         Produto produto = dataSnapshot.getValue(Produto.class);
-                        list.add(produto.getNome());
+                        list.add(produto);
                         adapter.notifyDataSetChanged();
                         spinner.setVisibility(View.GONE);
 
                         // Trata o TextView para mostrar a quantidade de produtos
                         labelQuatidade = (TextView) findViewById(R.id.label_quantidade);
-                        String quantidade = "Quantidade de produtos: " + list.size();
+                        String quantidade = list.size() + " produtos nesta categoria!";
                         labelQuatidade.setText(quantidade);
                     }
 

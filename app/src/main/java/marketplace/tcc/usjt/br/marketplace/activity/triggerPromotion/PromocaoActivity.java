@@ -21,7 +21,6 @@ import java.util.ArrayList;
 
 import marketplace.tcc.usjt.br.marketplace.R;
 import marketplace.tcc.usjt.br.marketplace.activity.CarrinhoActivity;
-import marketplace.tcc.usjt.br.marketplace.activity.triggerCategory.DetalheCategoriaActivity;
 import marketplace.tcc.usjt.br.marketplace.adapter.CategoriaApapter;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
 import marketplace.tcc.usjt.br.marketplace.model.Categoria;
@@ -59,7 +58,7 @@ public class PromocaoActivity extends AppCompatActivity {
                 params.putString("nomeCategoria", list.get(position).getNome());
 
                 // Passa o nome da categoria para a view de detalhe
-                Intent detalheCategoria = new Intent(context, DetalheCategoriaActivity.class);
+                Intent detalheCategoria = new Intent(context, DetalheCategoriaPromocaoActivity.class);
                 detalheCategoria.putExtras(params);
                 startActivity(detalheCategoria);
             }

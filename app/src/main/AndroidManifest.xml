@@ -87,7 +87,11 @@
         <activity
             android:name=".activity.triggerCategory.DetalheCategoriaActivity"
             android:label="Detalhe da Categoria" />
-        <activity android:name=".activity.triggerPromotion.DetalheCategoriaPromocaoActivity"></activity>
+
+        <!-- DETALHE DA CATEGORIA - PROMOCAO -->
+        <activity
+            android:name=".activity.triggerPromotion.DetalheCategoriaPromocaoActivity"
+            android:label="Detalhe da Categoria"/>
     </application>
 
 </manifest>

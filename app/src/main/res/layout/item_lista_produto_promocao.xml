@@ -19,7 +19,7 @@
     <LinearLayout
         android:paddingRight="15dp"
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="230dp"
         android:layout_height="match_parent">
 
         <TextView
@@ -39,7 +39,20 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="1dp"
-            android:textSize="16dp"/>
+            android:textSize="15dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="80dp"
+        android:layout_height="70dp">
+
+        <ImageView
+            android:src="@drawable/ic_add_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_marginLeft="10dp"/>
 
     </LinearLayout>
 </LinearLayout>

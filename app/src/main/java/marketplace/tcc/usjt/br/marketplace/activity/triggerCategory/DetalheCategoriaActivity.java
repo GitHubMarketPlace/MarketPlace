@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -22,6 +21,7 @@ import com.google.firebase.database.Query;
 import java.util.ArrayList;
 
 import marketplace.tcc.usjt.br.marketplace.R;
+import marketplace.tcc.usjt.br.marketplace.adapter.ProdutoCategoriaAdapter;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
 import marketplace.tcc.usjt.br.marketplace.model.Produto;
 
@@ -46,9 +46,8 @@ public class DetalheCategoriaActivity extends AppCompatActivity {
         spinner = (ProgressBar)findViewById(R.id.progressBar4);
 
         // Estrutura da lista de produtos
-        final ArrayList<String> list = new ArrayList<>();
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_selectable_list_item, list);
-//        final ProdutoCategoriaAdapter adapter = new ProdutoCategoriaAdapter(list, this);
+        final ArrayList<Produto> list = new ArrayList<>();
+        final ProdutoCategoriaAdapter adapter = new ProdutoCategoriaAdapter(list, this);
         productList = (ListView)findViewById(R.id.lista_produtos_categoria);
         productList.setAdapter(adapter);
 
@@ -69,7 +68,7 @@ public class DetalheCategoriaActivity extends AppCompatActivity {
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                         spinner.setVisibility(View.VISIBLE);
                         Produto produto = dataSnapshot.getValue(Produto.class);
-                        list.add(produto.getNome());
+                        list.add(produto);
                         adapter.notifyDataSetChanged();
                         spinner.setVisibility(View.GONE);
 
