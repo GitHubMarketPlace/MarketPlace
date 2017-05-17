@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,38 +13,36 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.synnapps.carouselview.CarouselView;
-import com.synnapps.carouselview.ImageListener;
 
 import marketplace.tcc.usjt.br.marketplace.R;
 import marketplace.tcc.usjt.br.marketplace.activity.CarrinhoActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.CriarMinhaListaActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.EntrarEmContatoActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.HistoricoDeComprasActivity;
-import marketplace.tcc.usjt.br.marketplace.activity.MinhaMelhorOpcaoActivity;
-import marketplace.tcc.usjt.br.marketplace.activity.triggerPromotion.PromocaoActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.SobreActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.triggerCategory.CategoriasActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.triggerCategory.DetalheCategoriaActivity;
+import marketplace.tcc.usjt.br.marketplace.activity.triggerPromotion.PromocaoActivity;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
+import marketplace.tcc.usjt.br.marketplace.fragment.InitialFragment;
+import marketplace.tcc.usjt.br.marketplace.fragment.MinhaMelhorOpcaoFragment;
 
 public class InitialActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth firebaseAuth;
     private Activity context;
-    private CarouselView carouselView;
-    private int[] sampleImages = { R.drawable.image_1,  R.drawable.image_2,  R.drawable.image_3,  R.drawable.image_4,  R.drawable.image_5 };
+//    private CarouselView carouselView;
+//    private int[] sampleImages = { R.drawable.image_1,  R.drawable.image_2,  R.drawable.image_3,  R.drawable.image_4,  R.drawable.image_5 };
     private Bundle params;
 
-    ImageListener imageListener = new ImageListener() {
-        @Override
-        public void setImageForPosition(int position, ImageView imageView) {
-            imageView.setImageResource(sampleImages[position]);
-        }
-    };
+//    ImageListener imageListener = new ImageListener() {
+//        @Override
+//        public void setImageForPosition(int position, ImageView imageView) {
+//            imageView.setImageResource(sampleImages[position]);
+//        }
+//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +50,10 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
         setContentView(R.layout.activity_side_nav);
         context = this;
 
-        // Carrossel
-        carouselView = (CarouselView) findViewById(R.id.carouselView);
-        carouselView.setPageCount(sampleImages.length);
-        carouselView.setImageListener(imageListener);
+//         Carrossel
+//        carouselView = (CarouselView) findViewById(carouselView);
+//        carouselView.setPageCount(sampleImages.length);
+//        carouselView.setImageListener(imageListener);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -62,11 +61,14 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        displaySelectedScreen(R.id.nav_home);
+
     }
 
     @Override
@@ -101,14 +103,23 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
+        displaySelectedScreen(id);
+        return true;
+    }
+
+    public void displaySelectedScreen (int id){
+        // Handle navigation view item clicks here.
+
         if (id == R.id.nav_home) {
-            Intent perfil = new Intent(this, InitialActivity.class);
-            startActivity(perfil);
+            InitialFragment fragment = new InitialFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.layout_for_fragment, fragment, fragment.getTag()).commit();
         } else if (id == R.id.nav_best_choice) {
-            Intent myBestOption = new Intent(this, MinhaMelhorOpcaoActivity.class);
-            startActivity(myBestOption);
+            MinhaMelhorOpcaoFragment fragment = new MinhaMelhorOpcaoFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.layout_for_fragment, fragment, fragment.getTag()).commit();
+
         } else if (id == R.id.nav_my_list) {
             Intent createMyList = new Intent(this, CriarMinhaListaActivity.class);
             startActivity(createMyList);
@@ -133,8 +144,9 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
+
+
 
     public void openAllCategoriesList(View view) {
         Intent categories = new Intent(this, CategoriasActivity.class);
