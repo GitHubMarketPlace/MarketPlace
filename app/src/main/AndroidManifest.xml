@@ -76,9 +76,6 @@
             android:label="Carrinho" />
 
         <!-- LISTA DE CATEGORIAS -->
-        <activity
-            android:name=".activity.triggerCategory.CategoriasActivity"
-            android:label="Categorias" />
 
         <!-- DETALHE DA CATEGORIA -->
         <activity

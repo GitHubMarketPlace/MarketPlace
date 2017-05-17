@@ -25,9 +25,9 @@ import marketplace.tcc.usjt.br.marketplace.activity.CriarMinhaListaActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.EntrarEmContatoActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.HistoricoDeComprasActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.SobreActivity;
-import marketplace.tcc.usjt.br.marketplace.activity.triggerCategory.CategoriasActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.triggerDetalhes.DetalheCategoriaActivity;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
+import marketplace.tcc.usjt.br.marketplace.fragment.CategoriaFragment;
 import marketplace.tcc.usjt.br.marketplace.fragment.InitialFragment;
 import marketplace.tcc.usjt.br.marketplace.fragment.MinhaMelhorOpcaoFragment;
 import marketplace.tcc.usjt.br.marketplace.fragment.PromocaoFragment;
@@ -163,8 +163,10 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
 
 
     public void openAllCategoriesList(View view) {
-        Intent categories = new Intent(this, CategoriasActivity.class);
-        startActivity(categories);
+        CategoriaFragment fragment = new CategoriaFragment();
+        FragmentManager manager = getSupportFragmentManager();
+        manager.beginTransaction().replace(R.id.layout_for_fragment, fragment, fragment.getTag()).commit();
+        carouselView.setVisibility(View.INVISIBLE);
     }
 
     public void openAcougueCategory(View view) {
