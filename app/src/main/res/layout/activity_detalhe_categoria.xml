@@ -23,7 +23,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#d3d3d3"
+            android:background="#a6000000"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="vertical"
@@ -63,7 +63,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:clickable="false"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                                android:textColor="#3e3e3e"
+                                android:textColor="#ffffff"
                                 android:textSize="20dp" />
                         </TableRow>
 
@@ -76,7 +76,7 @@
                                 android:clickable="false"
                                 android:gravity="center_vertical"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                                android:textColor="#82000000"
+                                android:textColor="#ffffff"
                                 android:textSize="14dp" />
                         </TableRow>
                     </TableLayout>

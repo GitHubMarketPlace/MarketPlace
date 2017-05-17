@@ -54,7 +54,7 @@ public class ProdutoCategoriaAdapter extends BaseAdapter {
         TextView valorProduto = (TextView)view.findViewById(R.id.item_lista_produto_preco);
 
         nomeProduto.setText(produto.getNome().toString());
-        valorProduto.setText("R$ " + produto.getValor().toString());
+        valorProduto.setText("Valor: R$ " + produto.getValor().toString());
         fotoProduto.setImageResource(R.drawable.ic_star);
 
         return view;

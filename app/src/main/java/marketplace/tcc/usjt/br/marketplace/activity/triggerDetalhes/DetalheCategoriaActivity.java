@@ -76,7 +76,7 @@ public class DetalheCategoriaActivity extends AppCompatActivity {
 
                         // Trata o TextView para mostrar a quantidade de produtos
                         labelQuatidade = (TextView) findViewById(R.id.label_quantidade);
-                        String quantidade = "Quantidade de produtos: " + list.size();
+                        String quantidade = list.size() + " produtos nesta categoria!";
                         labelQuatidade.setText(quantidade);
 
                         Log.i("PRODUTO_FIREBASE", produto.toString());
