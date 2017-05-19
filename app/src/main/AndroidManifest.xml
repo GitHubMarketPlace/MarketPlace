@@ -8,15 +8,20 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
-            android:name=".activity.triggerInitial.MainActivity"
-            android:label=""
+            android:name=".activity.SplashScreenActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <!-- INÍCIO -->
+        <activity
+            android:name=".activity.triggerInitial.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <!-- LOGIN USUÁRIO -->
@@ -58,7 +63,8 @@
         <!-- DETALHE DA CATEGORIA - PROMOCAO -->
         <activity
             android:name=".activity.triggerDetalhes.DetalheCategoriaPromocaoActivity"
-            android:label="Detalhe da Categoria"/>
+            android:label="Detalhe da Categoria" />
+
     </application>
 
 </manifest>
