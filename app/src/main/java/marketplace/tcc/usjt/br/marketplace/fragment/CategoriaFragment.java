@@ -46,19 +46,15 @@ public class CategoriaFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
     public void onPrepareOptionsMenu(Menu menu) {
         context.getMenuInflater().inflate(R.menu.menu_search, menu);
+        // Pega o contexto onde o item do menu irá entrar
         MenuItem item = menu.findItem(R.id.menuSearch);
+        // Instancia da interface de busca
         SearchView searchView = (SearchView) item.getActionView();
 
+        // Um listener do texto digitado no input da busca
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
@@ -89,12 +85,9 @@ public class CategoriaFragment extends Fragment {
         adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_selectable_list_item, list);
         categoryList = (ListView) view.findViewById(R.id.lista_categorias);
         categoryList.setAdapter(adapter);
-
-        // Evento de clicar na lista
         categoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 // Cria uma interface bundle (tipo hashmap) para passar o nome da categoria para o intent
                 params = new Bundle();
                 params.putString("nomeCategoria", list.get(position));
@@ -108,6 +101,7 @@ public class CategoriaFragment extends Fragment {
 
         spinner = (ProgressBar) view.findViewById(R.id.progressBar3);
 
+        // Listener (Query) para trazer os nomes das categorias
         reference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -119,24 +113,16 @@ public class CategoriaFragment extends Fragment {
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
 
             @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
 
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
+            public void onCancelled(DatabaseError databaseError) {}
         });
 
         return view;
