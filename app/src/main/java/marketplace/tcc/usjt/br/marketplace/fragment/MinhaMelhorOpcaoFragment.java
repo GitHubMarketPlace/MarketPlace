@@ -33,16 +33,20 @@ import marketplace.tcc.usjt.br.marketplace.model.Produto;
  */
 public class MinhaMelhorOpcaoFragment extends Fragment {
 
+    // Android view
     private ListView optionList;
     private ProgressBar spinner;
-    private Activity context;
-    private DatabaseReference reference;
-    private Bundle params;
-    private ArrayAdapter adapter;
+    // Android
     private View view;
-    private Query queryRef;
+    private Activity context;
+    private ArrayAdapter adapter;
+    private Bundle params;
+    //Firebase
+    private DatabaseReference reference;
     private FirebaseUser user;
+    private Query queryRef;
     private String queryOption;
+
 
     public MinhaMelhorOpcaoFragment() {
         // Required empty public constructor
@@ -95,7 +99,6 @@ public class MinhaMelhorOpcaoFragment extends Fragment {
         // Estruturando a lista
         final ArrayList<Produto> list = new ArrayList<>();
         final ProdutoCategoriaAdapter adapter = new ProdutoCategoriaAdapter(list, context);
-//        adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_selectable_list_item, list);
         optionList = (ListView) view.findViewById(R.id.lista_melhor_opcao);
         optionList.setAdapter(adapter);
 

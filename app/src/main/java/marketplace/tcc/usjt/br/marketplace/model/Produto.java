@@ -13,6 +13,7 @@ public class Produto {
     private String valor_promocao;
     private String nome_proprietario;
     private String categoria;
+    private String imagemProduto;
 
     public Produto() {
     }
@@ -43,5 +44,8 @@ public class Produto {
 
     public String getCategoria() { return categoria; }
     public void setCategoria(String categoria) { this.categoria = categoria; }
+
+    public String getImagemProduto() { return imagemProduto; }
+    public void setImagemProduto(String imagemProduto) { this.imagemProduto = imagemProduto; }
 }
 

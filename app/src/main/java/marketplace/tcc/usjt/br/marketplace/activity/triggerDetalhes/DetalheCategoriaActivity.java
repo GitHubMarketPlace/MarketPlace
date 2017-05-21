@@ -49,7 +49,7 @@ public class DetalheCategoriaActivity extends AppCompatActivity {
 
         // Estrutura da lista de produtos
         final ArrayList<Produto> list = new ArrayList<>();
-        final ProdutoCategoriaAdapter adapter = new ProdutoCategoriaAdapter(list, this);
+        final ProdutoCategoriaAdapter adapter = new ProdutoCategoriaAdapter(list, context);
         productList = (ListView)findViewById(R.id.lista_produtos_categoria);
         productList.setAdapter(adapter);
 

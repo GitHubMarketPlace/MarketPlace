@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -57,7 +59,11 @@ public class ProdutoPromocaoAdapter extends BaseAdapter {
 
         nomeProduto.setText(produto.getNome().toString());
         valorProduto.setText(Html.fromHtml(colorText));
-        fotoProduto.setImageResource(R.drawable.ic_star);
+        if (produto.getImagemProduto() != null) {
+            Picasso.with(context).load(produto.getImagemProduto()).into(fotoProduto);
+        } else {
+            fotoProduto.setImageResource(R.drawable.ic_star);
+        }
 
         return view;
     }
