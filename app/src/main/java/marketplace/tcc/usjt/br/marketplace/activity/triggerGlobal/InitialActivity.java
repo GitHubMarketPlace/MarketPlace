@@ -14,11 +14,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import marketplace.tcc.usjt.br.marketplace.R;
 import marketplace.tcc.usjt.br.marketplace.activity.triggerDetalhes.DetalheCategoriaActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.triggerInitial.MainActivity;
@@ -31,16 +39,24 @@ import marketplace.tcc.usjt.br.marketplace.fragment.InitialFragment;
 import marketplace.tcc.usjt.br.marketplace.fragment.MinhaMelhorOpcaoFragment;
 import marketplace.tcc.usjt.br.marketplace.fragment.PromocaoFragment;
 import marketplace.tcc.usjt.br.marketplace.fragment.SobreFragment;
+import marketplace.tcc.usjt.br.marketplace.model.Usuario;
 
 public class InitialActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private FirebaseAuth firebaseAuth;
-    private Activity context;
     private CarouselView carouselView;
-    private int[] sampleImages = { R.drawable.image_1,  R.drawable.image_2,  R.drawable.image_3,  R.drawable.image_4,  R.drawable.image_5 };
-    private Bundle params;
-    private String bar;
+    private TextView userName;
+    private TextView userEmail;
+    private CircleImageView userPhoto;
     private Toolbar toolbar;
+    private Activity context;
+    private Bundle params;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser user;
+    private DatabaseReference reference;
+
+    private int[] sampleImages;
+    private String bar;
+
 
     ImageListener imageListener = new ImageListener() {
         @Override
@@ -54,6 +70,10 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_side_nav);
         context = this;
+        // Recupera o usuário atualmente logado
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        sampleImages = new int[]{R.drawable.image_1, R.drawable.image_2, R.drawable.image_3, R.drawable.image_4, R.drawable.image_5};
 
         // Carrossel
         carouselView = (CarouselView) findViewById(R.id.carouselView);
@@ -72,8 +92,35 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        // Header da sidenav
+        View header = navigationView.getHeaderView(0);
+        userName = (TextView) header.findViewById(R.id.user_name_initial);
+        userEmail= (TextView) header.findViewById(R.id.user_email_initial);
+        userPhoto= (CircleImageView) header.findViewById(R.id.imagem_de_perfil);
+
         displaySelectedScreen(R.id.nav_home);
 
+        reference = FirebaseConfig.getFirebase().child("users").child(user.getUid().toString());
+        retrieveUserData(reference);
+    }
+
+    public void retrieveUserData(DatabaseReference reference){
+        // Cria uma referência a tabela de recomendação de produtos
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Usuario usuario = dataSnapshot.getValue(Usuario.class);
+                userName.setText(usuario.getNome().toString() + " " + usuario.getSobrenome().toString());
+                userEmail.setText(usuario.getEmail().toString());
+                if (usuario.getImagemDePerfil() != null) {
+                    Picasso.with(context).load(usuario.getImagemDePerfil()).into(userPhoto);
+                } else {
+                    Picasso.with(context).load(R.drawable.person_placeholder).into(userPhoto);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
     }
 
     @Override

@@ -4,6 +4,7 @@ package marketplace.tcc.usjt.br.marketplace.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,10 +64,10 @@ public class MinhaMelhorOpcaoFragment extends Fragment {
         // Recupera o usuário atualmente logado
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-//            Log.i("USUARIO_LOGADO",user.getEmail().toString());
-//            Log.i("USUARIO_LOGADO",user.getUid().toString());
+            Log.i("USUARIO_LOGADO",user.getEmail().toString());
+            Log.i("USUARIO_LOGADO",user.getUid().toString());
         } else {
-//            Log.i("Usuário não encontrado", "Erro");
+            Log.i("USUARIO_NAO_ENCONTRADO", "Erro");
         }
 
         // Cria uma referência a tabela de recomendação de produtos
@@ -95,7 +96,7 @@ public class MinhaMelhorOpcaoFragment extends Fragment {
         return view;
     }
 
-    public void queryProfiles(DatabaseReference refrence){
+    public void queryProfiles(DatabaseReference reference){
         // Estruturando a lista
         final ArrayList<Produto> list = new ArrayList<>();
         final ProdutoCategoriaAdapter adapter = new ProdutoCategoriaAdapter(list, context);

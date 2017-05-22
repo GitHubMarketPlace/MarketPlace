@@ -10,6 +10,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.SplashScreenActivity"
+            android:hardwareAccelerated="true"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,52 +22,62 @@
         <!-- INÍCIO -->
         <activity
             android:name=".activity.triggerInitial.MainActivity"
+            android:hardwareAccelerated="true"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <!-- LOGIN USUÁRIO -->
         <activity
             android:name=".activity.triggerInitial.LoginActivity"
+            android:hardwareAccelerated="true"
             android:label="Entrar" />
 
         <!-- CADASTRO DE USUÁRIO -->
         <activity
             android:name=".activity.triggerCadastro.CadastroActivity"
+            android:hardwareAccelerated="true"
             android:label="Cadastrar" />
 
         <!-- VIEW INICIAL DO ESTABELECIMENTO -->
         <activity
             android:name=".activity.triggerInitial.EstabelecimentoActivity"
+            android:hardwareAccelerated="true"
             android:label="Estabelecimento" />
 
         <!-- CADASTRO DE ESTABELECIMENTO -->
         <activity
             android:name=".activity.triggerCadastro.CadastroEstabelecimentoActivity"
+            android:hardwareAccelerated="true"
             android:label="Cadastrar Estabelecimento" />
 
         <!-- HOME DO APP -->
         <activity
             android:name=".activity.triggerGlobal.InitialActivity"
+            android:hardwareAccelerated="true"
             android:label="Início"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- CARRINHO -->
         <activity
             android:name=".activity.triggerGlobal.CarrinhoActivity"
+            android:hardwareAccelerated="true"
             android:label="Carrinho" />
 
         <!-- DETALHE DA CATEGORIA -->
         <activity
             android:name=".activity.triggerDetalhes.DetalheCategoriaActivity"
+            android:hardwareAccelerated="true"
             android:label="Detalhe da Categoria" />
 
         <!-- DETALHE DA CATEGORIA - PROMOCAO -->
         <activity
             android:name=".activity.triggerDetalhes.DetalheCategoriaPromocaoActivity"
+            android:hardwareAccelerated="true"
             android:label="Detalhe da Categoria" />
 
         <!-- DETALHE DO PRODUTO -->
         <activity
             android:name=".activity.triggerDetalhes.DetalheProdutoActivity"
+            android:hardwareAccelerated="true"
             android:label="Detalhe do Produto" />
     </application>
 

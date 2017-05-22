@@ -20,6 +20,7 @@ public class Usuario {
     private String cidade;
     private String estado;
     private String cep;
+    private String imagemDePerfil;
 
     public Usuario() {
     }
@@ -116,4 +117,8 @@ public class Usuario {
     public void setCep(String cep) {
         this.cep = cep;
     }
+
+    public String getImagemDePerfil() { return imagemDePerfil; }
+    public void setImagemDePerfil(String imagemDePerfil) { this.imagemDePerfil = imagemDePerfil; }
+
 }
