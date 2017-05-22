@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -33,6 +34,7 @@ public class DetalheCategoriaPromocaoActivity extends AppCompatActivity {
     private Activity context;
     private DatabaseReference reference;
     private Query queryRef;
+    private Bundle params;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,19 @@ public class DetalheCategoriaPromocaoActivity extends AppCompatActivity {
         final ProdutoPromocaoAdapter adapter = new ProdutoPromocaoAdapter(list, this);
         productList = (ListView)findViewById(R.id.lista_produtos_categoria);
         productList.setAdapter(adapter);
+        productList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Cria uma interface bundle (tipo hashmap) para passar o nome doproduto para o intent
+                params = new Bundle();
+                params.putString("nomeProduto", list.get(position).getNome().toString());
+
+                // Passa o nome do produto para a view de detalhe
+                Intent detalheProduto = new Intent(context, DetalheProdutoActivity.class);
+                detalheProduto.putExtras(params);
+                startActivity(detalheProduto);
+            }
+        });
 
         // Verifica os dados vindos do intent de Categorias
         Intent intent = getIntent();
