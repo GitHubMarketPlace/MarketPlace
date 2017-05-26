@@ -21,6 +21,7 @@
 
         <!-- INÍCIO -->
         <activity
+            android:windowSoftInputMode="adjustPan|adjustNothing"
             android:name=".activity.triggerInitial.MainActivity"
             android:hardwareAccelerated="true"
             android:theme="@style/AppTheme.NoActionBar"></activity>
