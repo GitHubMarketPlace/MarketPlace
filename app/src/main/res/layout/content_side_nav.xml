@@ -6,10 +6,9 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="56.2dp"
-    android:background="#ffffff"
+    android:background="#e4dcdc"
     android:orientation="vertical"
     tools:context="marketplace.tcc.usjt.br.marketplace.fragment.InitialFragment">
-    <!--android:background="#e4dcdc"-->
 
     <ScrollView
         android:id="@+id/form"
@@ -20,7 +19,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:fastScrollAlwaysVisible="false">
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,6 +35,338 @@
                 app:slideInterval="4000"
                 app:strokeColor="#FF777777"
                 app:strokeWidth="1dp" />
+
+            <TextView
+                android:id="@+id/textViewDrawerItemSubheaderTitle1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="#a6000000"
+                android:clickable="false"
+                android:padding="10dp"
+                android:text="Promoções"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                android:textColor="#FFFFFF"
+                android:textSize="18dp" />
+
+            <!-- SCROLL HORIZONTAL DE CATEGORIAS -->
+            <!-- O ELEMENTO QUE DEVE SER GERADO DENTRO DO HorizontalScrollViee É: -->
+            <!-- LinearLayout > TableLayout > (TableRow > CircleImageView) + (TableRow > TextView) -->
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TableLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TableRow>
+
+                            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/acougue"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="17dp"
+                                android:layout_marginTop="20dp"
+                                android:onClick="openAcougueCategory"
+                                android:src="@drawable/icon_meat"
+                                app:civ_border_color="#FFFFFF"
+                                app:civ_border_width="13dp"
+                                app:civ_fill_color="#FFFFFF" />
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                android:id="@+id/acougue_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="17dp"
+                                android:clickable="false"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:text="Açougue"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                android:textColor="#82000000"
+                                android:textSize="12dp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TableRow>
+
+                            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/drink"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="17dp"
+                                android:layout_marginTop="20dp"
+                                android:onClick="openBebidasCategory"
+                                android:src="@drawable/icon_drink"
+                                app:civ_border_color="#FFFFFF"
+                                app:civ_border_width="9dp"
+                                app:civ_fill_color="#FFFFFF" />
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                android:id="@+id/drink_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="17dp"
+                                android:clickable="false"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:text="Bebidas"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                android:textColor="#82000000"
+                                android:textSize="12dp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TableRow>
+
+                            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/hortifruti"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="17dp"
+                                android:layout_marginTop="20dp"
+                                android:onClick="openHortifrutiCategory"
+                                android:src="@drawable/icon_hortifruti"
+                                app:civ_border_color="#FFFFFF"
+                                app:civ_border_width="12dp"
+                                app:civ_fill_color="#FFFFFF" />
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                android:id="@+id/hortifruti_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="17dp"
+                                android:clickable="false"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:text="Hortifruti"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                android:textColor="#82000000"
+                                android:textSize="12dp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TableRow>
+
+                            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/limpeza"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="17dp"
+                                android:layout_marginTop="20dp"
+                                android:onClick="openLimpezaCategory"
+                                android:src="@drawable/icon_cleaning"
+                                app:civ_border_color="#FFFFFF"
+                                app:civ_border_width="12dp"
+                                app:civ_fill_color="#FFFFFF" />
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                android:id="@+id/limpeza_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="17dp"
+                                android:clickable="false"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:text="Produtos de\r\nLimpeza"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                android:textColor="#82000000"
+                                android:textSize="12dp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TableRow>
+
+                            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/laticinios"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="17dp"
+                                android:layout_marginTop="20dp"
+                                android:onClick="openLaticiniosCategory"
+                                android:src="@drawable/icon_dairy"
+                                app:civ_border_color="#FFFFFF"
+                                app:civ_border_width="12dp"
+                                app:civ_fill_color="#FFFFFF" />
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                android:id="@+id/laticionios_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="17dp"
+                                android:clickable="false"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:text="Laticínios"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                android:textColor="#82000000"
+                                android:textSize="12dp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TableRow>
+
+                            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/adega"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="17dp"
+                                android:layout_marginTop="20dp"
+                                android:onClick="openAdegaCategory"
+                                android:src="@drawable/icon_adega"
+                                app:civ_border_color="#FFFFFF"
+                                app:civ_border_width="12dp"
+                                app:civ_fill_color="#FFFFFF" />
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                android:id="@+id/adega_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="17dp"
+                                android:clickable="false"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:text="Adega"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                android:textColor="#82000000"
+                                android:textSize="12dp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TableRow>
+
+                            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/plus"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="17dp"
+                                android:layout_marginRight="17dp"
+                                android:layout_marginTop="20dp"
+                                android:clickable="true"
+                                android:onClick="openAllCategoriesList"
+                                android:src="@drawable/icon_add"
+                                app:civ_fill_color="#FFFFFF" />
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                android:id="@+id/plus_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="17dp"
+                                android:layout_marginRight="17dp"
+                                android:clickable="false"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:text="Ver tudo"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                                android:textColor="#82000000"
+                                android:textSize="12dp" />
+                        </TableRow>
+                    </TableLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <!-- SUBHEADER DE PRODUTOS RECOMENDADOS-->
+            <TextView
+                android:id="@+id/textViewDrawerItemSubheaderTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="#a6000000"
+                android:clickable="false"
+                android:padding="10dp"
+                android:text="Produtos recomendados"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                android:textColor="#FFFFFF"
+                android:textSize="18dp" />
+
+            <ProgressBar
+                android:id="@+id/progressBar9"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal" />
+
+            <ListView
+                android:id="@+id/lista_extreme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:scrollbars="none"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="10.0sp"></ListView>
 
         </LinearLayout>
     </ScrollView>

@@ -57,7 +57,7 @@ public class HistoricoDeComprasFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_historico_de_compras, container, false);
         context = getActivity();
-        spinner = (ProgressBar) view.findViewById(R.id.progressBar1);
+        spinner = (ProgressBar) view.findViewById(R.id.progressBar8);
 
         // Recupera o usuário atualmente logado
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -91,8 +91,9 @@ public class HistoricoDeComprasFragment extends Fragment {
         historicList = (ListView) view.findViewById(R.id.lista_historico);
         historicList.setAdapter(adapter);
 
+        queryRef = reference.orderByChild("order");
         // Listener (Query) para trazer os nomes das categorias
-        reference.addChildEventListener(new ChildEventListener() {
+        queryRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 spinner.setVisibility(View.VISIBLE);

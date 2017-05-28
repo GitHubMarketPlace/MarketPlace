@@ -10,14 +10,19 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,10 +31,13 @@ import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
+import java.util.ArrayList;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import marketplace.tcc.usjt.br.marketplace.R;
 import marketplace.tcc.usjt.br.marketplace.activity.triggerDetalhes.DetalheCategoriaActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.triggerInitial.MainActivity;
+import marketplace.tcc.usjt.br.marketplace.adapter.CardExtremeAdapter;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
 import marketplace.tcc.usjt.br.marketplace.fragment.CategoriaFragment;
 import marketplace.tcc.usjt.br.marketplace.fragment.CriarMinhaListaFragment;
@@ -39,6 +47,7 @@ import marketplace.tcc.usjt.br.marketplace.fragment.InitialFragment;
 import marketplace.tcc.usjt.br.marketplace.fragment.MinhaMelhorOpcaoFragment;
 import marketplace.tcc.usjt.br.marketplace.fragment.PromocaoFragment;
 import marketplace.tcc.usjt.br.marketplace.fragment.SobreFragment;
+import marketplace.tcc.usjt.br.marketplace.model.Produto;
 import marketplace.tcc.usjt.br.marketplace.model.Usuario;
 
 public class InitialActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -47,12 +56,18 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
     private TextView userName;
     private TextView userEmail;
     private CircleImageView userPhoto;
+    private ListView optionList;
     private Toolbar toolbar;
+    private ProgressBar spinner;
+
     private Activity context;
     private Bundle params;
+
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
     private DatabaseReference reference;
+    private DatabaseReference productsReference;
+    private String queryOption;
 
     private int[] sampleImages;
     private String bar;
@@ -72,6 +87,14 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
         context = this;
         // Recupera o usuário atualmente logado
         user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            Log.i("USUARIO_LOGADO",user.getEmail().toString());
+            Log.i("USUARIO_LOGADO",user.getUid().toString());
+        } else {
+            Log.i("USUARIO_NAO_ENCONTRADO", "Erro");
+        }
+
+        spinner = (ProgressBar) findViewById(R.id.progressBar9);
 
         sampleImages = new int[]{R.drawable.image_1, R.drawable.image_2, R.drawable.image_3, R.drawable.image_4, R.drawable.image_5};
 
@@ -99,6 +122,29 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
         userPhoto= (CircleImageView) header.findViewById(R.id.imagem_de_perfil);
 
         displaySelectedScreen(R.id.nav_home);
+
+        // Cria uma referência a tabela de recomendação de produtos
+        productsReference = FirebaseConfig.getFirebase().child("recommendationProfiles");
+        productsReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChild(user.getUid().toString())) {
+                    // Quando o usuário possui perfil de recomendação
+                    queryOption = user.getUid().toString();
+                    productsReference = productsReference.child(queryOption);
+                    queryProfiles(productsReference);
+                }
+                else {
+                    // Quando o usuário NÃO possui perfil de recomendação
+                    queryOption = "default";
+                    productsReference = productsReference.child(queryOption);
+                    queryProfiles(productsReference);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
 
         reference = FirebaseConfig.getFirebase().child("users").child(user.getUid().toString());
         retrieveUserData(reference);
@@ -223,6 +269,45 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
         toolbar.setTitle(bar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+    }
+
+    public void queryProfiles(DatabaseReference reference){
+        // Estruturando a lista
+        final ArrayList<Produto> list = new ArrayList<>();
+        final CardExtremeAdapter adapter = new CardExtremeAdapter(list, context);
+        optionList = (ListView) findViewById(R.id.lista_extreme);
+        optionList.setAdapter(adapter);
+        optionList.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
+        // Listener (Query) para trazer os nomes das categorias
+        reference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                spinner.setVisibility(View.VISIBLE);
+                Produto produto = dataSnapshot.getValue(Produto.class);
+                list.add(produto);
+                adapter.notifyDataSetChanged();
+                spinner.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
     }
 
     public void openAllCategoriesList(View view) {

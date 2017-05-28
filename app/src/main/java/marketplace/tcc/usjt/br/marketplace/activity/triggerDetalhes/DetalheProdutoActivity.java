@@ -32,6 +32,7 @@ import marketplace.tcc.usjt.br.marketplace.model.Produto;
 
 public class DetalheProdutoActivity extends AppCompatActivity {
 
+    // Android view
     private TextView nomeProduto;
     private TextView nomeProprietario;
     private TextView precoProduto;
@@ -42,10 +43,7 @@ public class DetalheProdutoActivity extends AppCompatActivity {
     private Spinner select;
     private CheckBox checkboxPromocao;
     private Activity context;
-
-    private DatabaseReference reference;
-    private Query queryRef;
-
+    // Android
     private Produto produto;
     private ArrayAdapter<String> adapter;
     private String valorFormatado;
@@ -53,6 +51,9 @@ public class DetalheProdutoActivity extends AppCompatActivity {
     private double valorTotalProduto;
     private double preco;
     private int quantidadeSelecionada;
+    // Firebase
+    private DatabaseReference reference;
+    private Query queryRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,0 +1,58 @@
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="270dp"
+    android:layout_margin="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/item_lista_extreme_imagem"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_alignParentTop="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/image_1" />
+
+        <TextView
+            android:id="@+id/item_lista_extreme_valor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_lista_extreme_imagem"
+            android:maxLines="3"
+            android:padding="8dp"
+            android:text="R$ 06.90"
+            android:textColor="#222"
+            android:textSize="22dp" />
+
+        <TextView
+            android:id="@+id/item_lista_extreme_descricao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_lista_extreme_valor"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:paddingLeft="8dp"
+            android:text="Laranja blablabla"
+            android:textColor="#666"
+            android:textSize="14dp" />
+
+    </RelativeLayout>
+
+    <!--<TextView-->
+        <!--android:id="@+id/nome_produto"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/thumbnail"-->
+        <!--android:padding="8dp"-->
+        <!--android:text="Teste"-->
+        <!--android:textColor="#ffffff"-->
+        <!--android:textStyle="bold"-->
+        <!--android:textSize="22dp"-->
+        <!--android:layout_gravity="bottom"-->
+        <!--android:layout_marginBottom="80dp"-->
+        <!--android:background="#96353434"/>-->
+</android.support.v7.widget.CardView>
