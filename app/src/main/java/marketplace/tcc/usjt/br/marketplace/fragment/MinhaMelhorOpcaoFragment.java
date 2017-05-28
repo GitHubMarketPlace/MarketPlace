@@ -42,7 +42,7 @@ public class MinhaMelhorOpcaoFragment extends Fragment {
     private Activity context;
     private ArrayAdapter adapter;
     private Bundle params;
-    //Firebase
+    // Firebase
     private DatabaseReference reference;
     private FirebaseUser user;
     private Query queryRef;
