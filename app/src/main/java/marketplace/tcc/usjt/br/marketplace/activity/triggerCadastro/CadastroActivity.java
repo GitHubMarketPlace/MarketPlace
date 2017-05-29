@@ -1,11 +1,13 @@
 package marketplace.tcc.usjt.br.marketplace.activity.triggerCadastro;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.SmsManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 import marketplace.tcc.usjt.br.marketplace.R;
 import marketplace.tcc.usjt.br.marketplace.activity.triggerGlobal.InitialActivity;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
+import marketplace.tcc.usjt.br.marketplace.helper.Permission;
 import marketplace.tcc.usjt.br.marketplace.model.Usuario;
 
 public class CadastroActivity extends AppCompatActivity {
@@ -50,12 +53,20 @@ public class CadastroActivity extends AppCompatActivity {
     private AlertDialog.Builder dialog_complete;
     private AlertDialog.Builder dialog_error;
     private String error_message;
+    private String[] permissions = new String[]{
+            android.Manifest.permission.SEND_SMS,
+            Manifest.permission.BATTERY_STATS,
+            Manifest.permission.INTERNET
+
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Permission.validaPermissões(1, this, permissions);
 
         // Instanciando variáveis do firebase
         firebaseAuth = FirebaseConfig.getFirebaseAuth();
@@ -111,7 +122,7 @@ public class CadastroActivity extends AppCompatActivity {
     // Método de cadastro de usuário
     public void registerUser(View view) {
         spinner.setVisibility(View.VISIBLE);
-        // Cria uma relação do usuário no Firebase //
+        // Cria uma relação do usuário no Firebase 
         firebaseAuth.createUserWithEmailAndPassword(cadastro_email.getText().toString(),cadastro_senha.getText().toString())
                 .addOnCompleteListener(CadastroActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
@@ -161,6 +172,14 @@ public class CadastroActivity extends AppCompatActivity {
         user.setEstado(cadastro_estado.getText().toString());
         user.setCep(cadastro_cep.getText().toString());
         user.save();
+
+        String telefone = user.getTelefone();
+        telefone.replace(" ", "");
+        telefone.replace("-", "");
+        telefone.replace("(", "");
+        telefone.replace(")", "");
+        String mensagem = "Bem vindo ao market place " + user.getNome() + " " + user.getSobrenome() + " !";
+        sendSMS(telefone, mensagem);
     }
 
     public void createErrorDialog(String error_message){
@@ -217,7 +236,22 @@ public class CadastroActivity extends AppCompatActivity {
         cadastro_cep.setText("");
     }
 
+    private boolean sendSMS(String tel, String msg){
+        try{
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(tel, null, msg, null, null);
+
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+
+            return false;
+        }
+    }
 }
+
+
+
 // Testando adicionar produtos com Base64
 //                        Produto product = new Produto();
 //                        product.setNome("Morango");
