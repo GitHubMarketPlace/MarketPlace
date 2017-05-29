@@ -2,12 +2,14 @@ package marketplace.tcc.usjt.br.marketplace.fragment;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -23,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import marketplace.tcc.usjt.br.marketplace.R;
+import marketplace.tcc.usjt.br.marketplace.activity.triggerDetalhes.DetalheHistoricoActivity;
 import marketplace.tcc.usjt.br.marketplace.adapter.HistoricoAdapter;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
 import marketplace.tcc.usjt.br.marketplace.model.Historico;
@@ -38,6 +41,7 @@ public class HistoricoDeComprasFragment extends Fragment {
     // Android
     private View view;
     private Activity context;
+    private Bundle params;
     // Firebase
     private DatabaseReference reference;
     private FirebaseUser user;
@@ -90,6 +94,21 @@ public class HistoricoDeComprasFragment extends Fragment {
         final HistoricoAdapter adapter = new HistoricoAdapter(list, context);
         historicList = (ListView) view.findViewById(R.id.lista_historico);
         historicList.setAdapter(adapter);
+        historicList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Cria uma interface bundle (tipo hashmap) para passar o nome da categoria para o intent
+                params = new Bundle();
+                params.putString("idCarrinho", list.get(position).getCompra().toString());
+                params.putString("dataCarrinho", list.get(position).getData().toString());
+                params.putString("horaCarrinho", list.get(position).getHora().toString());
+
+                // Passa o nome da categoria para a view de detalhe
+                Intent detalheHistorico = new Intent(context, DetalheHistoricoActivity.class);
+                detalheHistorico.putExtras(params);
+                startActivity(detalheHistorico);
+            }
+        });
 
         queryRef = reference.orderByChild("order");
         // Listener (Query) para trazer os nomes das categorias

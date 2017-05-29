@@ -21,10 +21,10 @@
 
         <!-- INÍCIO -->
         <activity
-            android:windowSoftInputMode="adjustPan|adjustNothing"
             android:name=".activity.triggerInitial.MainActivity"
             android:hardwareAccelerated="true"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan|adjustNothing" />
 
         <!-- LOGIN USUÁRIO -->
         <activity
@@ -80,6 +80,12 @@
             android:name=".activity.triggerDetalhes.DetalheProdutoActivity"
             android:hardwareAccelerated="true"
             android:label="Detalhe do Produto" />
+
+        <!-- DETALHE DA COMPRA -->
+        <activity
+            android:name=".activity.triggerDetalhes.DetalheHistoricoActivity"
+            android:hardwareAccelerated="true"
+            android:label="Detalhe da Compra" />
     </application>
 
 </manifest>

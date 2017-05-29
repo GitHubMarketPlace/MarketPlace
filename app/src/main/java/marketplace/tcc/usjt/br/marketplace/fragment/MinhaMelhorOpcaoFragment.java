@@ -2,12 +2,14 @@ package marketplace.tcc.usjt.br.marketplace.fragment;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -24,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import marketplace.tcc.usjt.br.marketplace.R;
+import marketplace.tcc.usjt.br.marketplace.activity.triggerDetalhes.DetalheProdutoActivity;
 import marketplace.tcc.usjt.br.marketplace.adapter.ProdutoCategoriaAdapter;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
 import marketplace.tcc.usjt.br.marketplace.model.Produto;
@@ -102,6 +105,19 @@ public class MinhaMelhorOpcaoFragment extends Fragment {
         final ProdutoCategoriaAdapter adapter = new ProdutoCategoriaAdapter(list, context);
         optionList = (ListView) view.findViewById(R.id.lista_melhor_opcao);
         optionList.setAdapter(adapter);
+        optionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Cria uma interface bundle (tipo hashmap) para passar o nome doproduto para o intent
+                params = new Bundle();
+                params.putString("nomeProduto", list.get(position).getNome().toString());
+
+                // Passa o nome do produto para a view de detalhe
+                Intent detalheProduto = new Intent(context, DetalheProdutoActivity.class);
+                detalheProduto.putExtras(params);
+                startActivity(detalheProduto);
+            }
+        });
 
         // Listener (Query) para trazer os nomes das categorias
         reference.addChildEventListener(new ChildEventListener() {
