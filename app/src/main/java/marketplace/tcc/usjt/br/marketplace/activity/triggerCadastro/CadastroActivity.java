@@ -1,6 +1,5 @@
 package marketplace.tcc.usjt.br.marketplace.activity.triggerCadastro;
 
-import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,7 +28,6 @@ import com.google.firebase.auth.FirebaseUser;
 import marketplace.tcc.usjt.br.marketplace.R;
 import marketplace.tcc.usjt.br.marketplace.activity.triggerGlobal.InitialActivity;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
-import marketplace.tcc.usjt.br.marketplace.helper.Permission;
 import marketplace.tcc.usjt.br.marketplace.model.Usuario;
 
 public class CadastroActivity extends AppCompatActivity {
@@ -53,20 +51,12 @@ public class CadastroActivity extends AppCompatActivity {
     private AlertDialog.Builder dialog_complete;
     private AlertDialog.Builder dialog_error;
     private String error_message;
-    private String[] permissions = new String[]{
-            android.Manifest.permission.SEND_SMS,
-            Manifest.permission.BATTERY_STATS,
-            Manifest.permission.INTERNET
-
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        Permission.validaPermissões(1, this, permissions);
 
         // Instanciando variáveis do firebase
         firebaseAuth = FirebaseConfig.getFirebaseAuth();
@@ -178,7 +168,7 @@ public class CadastroActivity extends AppCompatActivity {
         telefone.replace("-", "");
         telefone.replace("(", "");
         telefone.replace(")", "");
-        String mensagem = "Bem vindo ao market place " + user.getNome() + " " + user.getSobrenome() + " !";
+        String mensagem = "Bem vindo ao Market Place " + user.getNome() + " " + user.getSobrenome() + " !";
         sendSMS(telefone, mensagem);
     }
 

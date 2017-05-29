@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Permission {
 
-    public static boolean validaPermissões(int requestCode, Activity activity, String [] permissions){
+    public static boolean validPermissions(int requestCode, Activity activity, String [] permissions){
 
         if (Build.VERSION.SDK_INT >= 23){
 
