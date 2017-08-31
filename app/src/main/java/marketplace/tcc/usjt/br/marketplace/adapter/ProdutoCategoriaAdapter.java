@@ -2,6 +2,7 @@ package marketplace.tcc.usjt.br.marketplace.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,8 +60,10 @@ public class ProdutoCategoriaAdapter extends BaseAdapter {
         nomeProduto = (TextView) view.findViewById(R.id.item_lista_produto_nome);
         valorProduto = (TextView) view.findViewById(R.id.item_lista_produto_preco);
 
+        String colorText= "<font color=\"#159800\"><bold>" + "Valor: R$ " + produto.getValor().toString() + "</bold></font>";
+
         nomeProduto.setText(produto.getNome().toString());
-        valorProduto.setText("Valor: R$ " + produto.getValor().toString());
+        valorProduto.setText(Html.fromHtml(colorText));
         if (produto.getImagemProduto() != null) {
             Picasso.with(context).load(produto.getImagemProduto()).into(fotoProduto);
         } else {
