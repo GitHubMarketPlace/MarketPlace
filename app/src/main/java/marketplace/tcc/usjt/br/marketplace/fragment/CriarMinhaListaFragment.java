@@ -4,6 +4,7 @@ package marketplace.tcc.usjt.br.marketplace.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -37,7 +38,7 @@ public class CriarMinhaListaFragment extends Fragment {
     private DatabaseReference product_reference;
     private Query queryRef;
 
-    //private ProgressBar spinner;
+    private ProgressBar spinner;
     private ListView listaProdutos;
     private AutoCompleteTextView autocomplete;
 
@@ -62,7 +63,7 @@ public class CriarMinhaListaFragment extends Fragment {
         reference = FirebaseConfig.getFirebase().child("products");
 
         // Spinner
-        //spinner = (ProgressBar) view.findViewById(R.id.progressBar11);
+        spinner = (ProgressBar) view.findViewById(R.id.progressBar11);
 
         // Autocomplete
         final ArrayAdapter<String> autocomplete_adapter = new ArrayAdapter<String>(context,android.R.layout.simple_dropdown_item_1line, list);
@@ -72,7 +73,8 @@ public class CriarMinhaListaFragment extends Fragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(context, autocomplete_adapter.getItem(position).toString(), Toast.LENGTH_SHORT).show();
+                String nome_produto =  autocomplete_adapter.getItem(position).toString();
+                buscaProdutoParaLista(nome_produto);
             }
         });
 
@@ -103,6 +105,35 @@ public class CriarMinhaListaFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public void buscaProdutoParaLista(String nome_produto){
+        queryRef =  reference.orderByChild("nome").equalTo(nome_produto);
+
+        queryRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                spinner.setVisibility(View.VISIBLE);
+                Log.i("PRODUTO", dataSnapshot.getValue().toString());
+                Produto produto = dataSnapshot.getValue(Produto.class);
+
+                products.add(produto);
+                adapter.notifyDataSetChanged();
+                spinner.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
     }
 
 }
