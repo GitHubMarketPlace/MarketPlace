@@ -8,13 +8,6 @@
     android:layout_height="match_parent"
     tools:context="marketplace.tcc.usjt.br.marketplace.fragment.CriarMinhaListaFragment">
 
-    <ProgressBar
-        android:id="@+id/progressBar11"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|center_horizontal" />
-
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
@@ -58,6 +51,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fastScrollAlwaysVisible="false"></ListView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_add_car_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@drawable/ic_add_shopping"/>
 
 </android.support.design.widget.CoordinatorLayout>
 

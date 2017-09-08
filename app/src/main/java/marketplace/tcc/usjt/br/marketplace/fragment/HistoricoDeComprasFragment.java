@@ -48,12 +48,9 @@ public class HistoricoDeComprasFragment extends Fragment {
     private Query queryRef;
     private String queryOption;
 
-
-
     public HistoricoDeComprasFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,7 +69,7 @@ public class HistoricoDeComprasFragment extends Fragment {
             Log.i("USUARIO_NAO_ENCONTRADO", "Erro");
         }
 
-        // Cria uma referência a tabela de recomendação de produtos
+        // Cria uma referência a tabela de histórico de produtos
         reference = FirebaseConfig.getFirebase().child("historics").child(user.getUid().toString());
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -121,16 +118,12 @@ public class HistoricoDeComprasFragment extends Fragment {
                 adapter.notifyDataSetChanged();
                 spinner.setVisibility(View.GONE);
             }
-
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
-
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {}
-
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });

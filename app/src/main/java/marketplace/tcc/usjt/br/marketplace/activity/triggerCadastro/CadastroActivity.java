@@ -176,7 +176,6 @@ public class CadastroActivity extends AppCompatActivity {
         dialog_error = new AlertDialog.Builder(CadastroActivity.this);
         dialog_error.setTitle("Erro!");
         dialog_error.setCancelable(false);
-        dialog_error.setIcon(android.R.drawable.ic_menu_close_clear_cancel);
         dialog_error.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {}
@@ -192,7 +191,6 @@ public class CadastroActivity extends AppCompatActivity {
         dialog_complete.setTitle("Sucesso!");
         dialog_complete.setMessage("Seu perfil foi cadastrado com sucesso");
         dialog_complete.setCancelable(false);
-        dialog_complete.setIcon(android.R.drawable.stat_sys_upload_done);
         dialog_complete.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
