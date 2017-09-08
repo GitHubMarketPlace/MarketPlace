@@ -4,7 +4,6 @@ package marketplace.tcc.usjt.br.marketplace.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -114,7 +113,6 @@ public class CriarMinhaListaFragment extends Fragment {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 spinner.setVisibility(View.VISIBLE);
-                Log.i("PRODUTO", dataSnapshot.getValue().toString());
                 Produto produto = dataSnapshot.getValue(Produto.class);
 
                 products.add(produto);
