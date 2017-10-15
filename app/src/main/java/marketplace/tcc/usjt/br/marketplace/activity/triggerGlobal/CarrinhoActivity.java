@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -53,6 +55,14 @@ public class CarrinhoActivity extends AppCompatActivity {
         lista_carrinho = (ListView) findViewById(R.id.lista_carrinho);
         adapter = new RemoveItemAdapter(products, CarrinhoActivity.this);
         lista_carrinho.setAdapter(adapter);
+        lista_carrinho.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("VEIOISSO", String.valueOf(reference.child(String.valueOf(products.get(position).getNome()))));
+
+                return false;
+            }
+        });
 
         reference.addChildEventListener(new ChildEventListener() {
             @Override
@@ -62,7 +72,6 @@ public class CarrinhoActivity extends AppCompatActivity {
                 titulo_carrinho.setText("Quantidade de produtos: " + products.size());
                 adapter.notifyDataSetChanged();
             }
-
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
             @Override

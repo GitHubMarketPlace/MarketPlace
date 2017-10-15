@@ -74,7 +74,6 @@ public class CategoriaFragment extends Fragment {
         });
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -87,7 +86,6 @@ public class CategoriaFragment extends Fragment {
 
         // Estruturando a lista
         final ArrayList<String> list = new ArrayList<>();
-        //final CategoriaApapter adapter = new CategoriaApapter(list, this);
         adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_selectable_list_item, list);
         categoryList = (ListView) view.findViewById(R.id.lista_categorias);
         categoryList.setAdapter(adapter);
