@@ -29,13 +29,15 @@ import marketplace.tcc.usjt.br.marketplace.model.Produto;
 
 public class DetalheCategoriaActivity extends AppCompatActivity {
 
+    // Atributos do Firebase
+    private DatabaseReference reference;
+    private Query queryRef;
+    // Atributos da Activity
+    private Activity context;
     private TextView nomeCategoria;
     private TextView labelQuatidade;
     private ProgressBar spinner;
     private ListView productList;
-    private Activity context;
-    private DatabaseReference reference;
-    private Query queryRef;
     private Bundle params;
 
     @Override

@@ -24,16 +24,23 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 
 import marketplace.tcc.usjt.br.marketplace.R;
 import marketplace.tcc.usjt.br.marketplace.activity.triggerGlobal.InitialActivity;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
+import marketplace.tcc.usjt.br.marketplace.model.Produto;
 import marketplace.tcc.usjt.br.marketplace.model.Usuario;
 
 public class CadastroActivity extends AppCompatActivity {
 
     // Atributos do Firebase
     private FirebaseAuth firebaseAuth;
+    private DatabaseReference defaultListReference;
+    private DatabaseReference recommendationProfileReference;
     // Atributos da Activity
     private ProgressBar spinner;
     private EditText cadastro_nome;
@@ -60,6 +67,8 @@ public class CadastroActivity extends AppCompatActivity {
 
         // Instanciando variáveis do firebase
         firebaseAuth = FirebaseConfig.getFirebaseAuth();
+        defaultListReference = FirebaseConfig.getFirebase().child("defaultRecomendationList");
+        recommendationProfileReference = FirebaseConfig.getFirebase().child("recommendationProfiles");
 
         // Reconhece os elementos da view
         cadastro_nome      = (EditText)findViewById(R.id.cadastro_nome);
@@ -143,7 +152,6 @@ public class CadastroActivity extends AppCompatActivity {
                 }});
     }
 
-
     public void createAndSaveUserObject(Task<AuthResult> task){
         // Cria o objeto do usuário e salva os dados no banco
         Usuario user = new Usuario();
@@ -170,7 +178,38 @@ public class CadastroActivity extends AppCompatActivity {
         telefone.replace(")", "");
         String mensagem = "Bem vindo ao Market Place " + user.getNome() + " " + user.getSobrenome() + " !";
         sendSMS(telefone, mensagem);
+        createdDefaultRecomendationProfile(userFirebase);
     }
+
+    private boolean sendSMS(String tel, String msg){
+        try{
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(tel, null, msg, null, null);
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void createdDefaultRecomendationProfile(final FirebaseUser userFirebase){
+        defaultListReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Produto produto = dataSnapshot.getValue(Produto.class);
+                recommendationProfileReference.child(userFirebase.getUid().toString()).child(produto.getId()).setValue(produto);
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+
 
     public void createErrorDialog(String error_message){
         dialog_error = new AlertDialog.Builder(CadastroActivity.this);
@@ -223,22 +262,7 @@ public class CadastroActivity extends AppCompatActivity {
         cadastro_estado.setText("");
         cadastro_cep.setText("");
     }
-
-    private boolean sendSMS(String tel, String msg){
-        try{
-            SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage(tel, null, msg, null, null);
-
-            return true;
-        }catch(Exception e){
-            e.printStackTrace();
-
-            return false;
-        }
-    }
 }
-
-
 
 // Testando adicionar produtos com Base64
 //                        Produto product = new Produto();
