@@ -1,6 +1,8 @@
 package marketplace.tcc.usjt.br.marketplace.activity.triggerGlobal;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -32,6 +34,8 @@ public class CarrinhoActivity extends AppCompatActivity {
     private ListView lista_carrinho;
     private TextView titulo_carrinho;
     private RemoveItemAdapter adapter;
+    private AlertDialog.Builder dialog_cart;
+    private AlertDialog.Builder dialog_success;
     private final ArrayList<Produto> products = new ArrayList<>();
 
     @Override
@@ -58,12 +62,33 @@ public class CarrinhoActivity extends AppCompatActivity {
         lista_carrinho.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("VEIOISSO", String.valueOf(reference.child(String.valueOf(products.get(position).getNome()))));
-
+                createSuccessDialog();
+                createPositiveDialog(position);
+                dialog_cart.show();
                 return false;
             }
         });
 
+        loadCart();
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public void loadCart(){
         reference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -81,22 +106,43 @@ public class CarrinhoActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
-
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                finish();
-                return true;
-        }
-        return onOptionsItemSelected(item);
+    public void createPositiveDialog(final int position){
+        //Criando Dialog de envio ao carrinho
+        dialog_cart = new AlertDialog.Builder(CarrinhoActivity.this);
+        dialog_cart.setTitle("Deseja remover o produdo do carrinho?");
+        dialog_cart.setMessage("O produto será removido de sua lista");
+        dialog_cart.setCancelable(true);
+        dialog_cart.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String product_for_remove = products.get(position).getNome();
+                reference.child(product_for_remove).removeValue();
+                dialog_success.show();
+            }
+        });
+        dialog_cart.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}
+        });
+        dialog_cart.create();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
+    public void createSuccessDialog(){
+        //Criando Dialog de envio ao carrinho
+        dialog_success = new AlertDialog.Builder(CarrinhoActivity.this);
+        dialog_success.setTitle("Sucesso!");
+        dialog_success.setMessage("O produto foi removido do carrinho com sucesso");
+        dialog_success.setCancelable(true);
+        dialog_success.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                products.clear();
+                loadCart();
+            }
+        });
+        dialog_success.create();
     }
 
 }

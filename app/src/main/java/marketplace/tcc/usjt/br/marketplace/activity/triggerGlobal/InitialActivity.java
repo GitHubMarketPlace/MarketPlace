@@ -90,6 +90,11 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
         if (user != null) {
             Log.i("USUARIO_LOGADO",user.getEmail().toString());
             Log.i("USUARIO_LOGADO",user.getUid().toString());
+
+            reference = FirebaseConfig.getFirebase().child("users").child(user.getUid().toString());
+            // Cria o nó de recomendação caso não exista
+            reference.child("recommendationProfiles").child(user.getUid().toString());
+            retrieveUserData(reference);
         } else {
             Log.i("USUARIO_NAO_ENCONTRADO", "Erro");
         }
@@ -145,9 +150,6 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
-
-        reference = FirebaseConfig.getFirebase().child("users").child(user.getUid().toString());
-        retrieveUserData(reference);
     }
 
     public void retrieveUserData(DatabaseReference reference){

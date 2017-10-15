@@ -2,9 +2,12 @@ package marketplace.tcc.usjt.br.marketplace.fragment;
 
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,13 +44,17 @@ public class MinhaMelhorOpcaoFragment extends Fragment {
     // Android view
     private ListView optionList;
     private ProgressBar spinner;
+    private FloatingActionButton addCar;
     // Android
     private View view;
     private Activity context;
     private ArrayAdapter adapter;
     private Bundle params;
+    private AlertDialog.Builder dialog_cart;
+    private final ArrayList<Produto> list = new ArrayList<>();
     // Firebase
     private DatabaseReference reference;
+    private DatabaseReference cart_reference;
     private FirebaseUser user;
     private Query queryRef;
     private String queryOption;
@@ -59,6 +67,9 @@ public class MinhaMelhorOpcaoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        cart_reference = FirebaseConfig.getFirebase().child("carts");
+
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_minha_melhor_opcao, container, false);
         context = getActivity();
@@ -72,6 +83,18 @@ public class MinhaMelhorOpcaoFragment extends Fragment {
         } else {
             Log.i("USUARIO_NAO_ENCONTRADO", "Erro");
         }
+
+        //Criando Dialog de envio ao carrinho
+        sendToCart();
+
+        // Float de adicionar ao carrinho
+        addCar = (FloatingActionButton) view.findViewById(R.id.fab_add_car);
+        addCar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog_cart.show();
+            }
+        });
 
         // Cria uma referência a tabela de recomendação de produtos
         reference = FirebaseConfig.getFirebase().child("recommendationProfiles");
@@ -101,7 +124,6 @@ public class MinhaMelhorOpcaoFragment extends Fragment {
 
     public void queryProfiles(DatabaseReference reference){
         // Estruturando a lista
-        final ArrayList<Produto> list = new ArrayList<>();
         final ProdutoCategoriaAdapter adapter = new ProdutoCategoriaAdapter(list, context);
         optionList = (ListView) view.findViewById(R.id.lista_melhor_opcao);
         optionList.setAdapter(adapter);
@@ -129,18 +151,40 @@ public class MinhaMelhorOpcaoFragment extends Fragment {
                 adapter.notifyDataSetChanged();
                 spinner.setVisibility(View.GONE);
             }
-
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
-
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {}
-
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
+    }
+
+    public void sendToCart(){
+        dialog_cart = new AlertDialog.Builder(context);
+        dialog_cart.setTitle("Deseja adicionar sua lista ao carrinho?");
+        dialog_cart.setMessage("Toda lista será adicionada ao carrinho");
+        dialog_cart.setCancelable(true);
+        dialog_cart.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Produto product = new Produto();
+                if (list.size() > 0){
+                    for (int i = 0; i < list.size(); i ++){
+                        cart_reference.child(user.getUid()).child(list.get(i).getNome()).setValue(list.get(i));
+                    }
+                    Toast.makeText(context, list.size() + " Produtos adicionados com sucesso", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(context, "Insira produtos na lista!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        dialog_cart.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}
+        });
+        dialog_cart.create();
     }
 }

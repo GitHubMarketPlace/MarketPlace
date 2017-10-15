@@ -67,6 +67,14 @@ public class DetalheCategoriaActivity extends AppCompatActivity {
             }
         });
 
+        productList.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                return false;
+            }
+        });
+
         // Verifica os dados vindos do intent de Categorias
         Intent intent = getIntent();
         if (intent != null){
@@ -93,16 +101,12 @@ public class DetalheCategoriaActivity extends AppCompatActivity {
                         String quantidade = list.size() + " produtos nesta categoria!";
                         labelQuatidade.setText(quantidade);
                     }
-
                     @Override
                     public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
-
                     @Override
                     public void onChildRemoved(DataSnapshot dataSnapshot) {}
-
                     @Override
                     public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {}
                 });

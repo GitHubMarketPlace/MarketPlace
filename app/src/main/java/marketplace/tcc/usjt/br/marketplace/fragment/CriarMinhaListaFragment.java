@@ -80,34 +80,7 @@ public class CriarMinhaListaFragment extends Fragment {
         }
 
         //Criando Dialog de envio ao carrinho
-        dialog_cart = new AlertDialog.Builder(context);
-        dialog_cart.setTitle("Deseja adicionar sua lista ao carrinho?");
-        dialog_cart.setMessage("Toda lista será adicionada ao carrinho");
-        dialog_cart.setCancelable(true);
-        dialog_cart.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Produto product = new Produto();
-                if (products.size() > 0){
-                    int count = 0;
-                    for (int i = 0; i < products.size(); i ++){
-                        cart_reference.child(user.getUid()).child(products.get(i).getNome()).setValue(products.get(i));
-                        products.remove(i);
-                        count ++;
-                        if (count == products.size()){
-                            Toast.makeText(context, "Produtos adicionados com sucesso", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }else{
-                    Toast.makeText(context, "Insira produtos na lista!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        dialog_cart.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {}
-        });
-        dialog_cart.create();
+        sendToCart();
 
         // Float de adicionar ao carrinho
         addCar = (FloatingActionButton) view.findViewById(R.id.fab_add_car_2);
@@ -154,6 +127,34 @@ public class CriarMinhaListaFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public void sendToCart(){
+        dialog_cart = new AlertDialog.Builder(context);
+        dialog_cart.setTitle("Deseja adicionar sua lista ao carrinho?");
+        dialog_cart.setMessage("Toda lista será adicionada ao carrinho");
+        dialog_cart.setCancelable(true);
+        dialog_cart.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Produto product = new Produto();
+                if (products.size() > 0){
+                    for (int i = 0; i < products.size(); i ++){
+                        cart_reference.child(user.getUid()).child(products.get(i).getNome()).setValue(products.get(i));
+                    }
+                    Toast.makeText(context, products.size() + " Produtos adicionados com sucesso", Toast.LENGTH_SHORT).show();
+                    products.clear();
+                    list.clear();
+                }else{
+                    Toast.makeText(context, "Insira produtos na lista!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        dialog_cart.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}
+        });
+        dialog_cart.create();
     }
 
     public void searchProductForList(String nome_produto){
