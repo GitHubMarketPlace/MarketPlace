@@ -142,7 +142,7 @@ public class CriarMinhaListaFragment extends Fragment {
                     for (int i = 0; i < products.size(); i ++){
                         cart_reference.child(user.getUid()).child(products.get(i).getNome()).setValue(products.get(i));
                     }
-                    Toast.makeText(context, products.size() + " Produtos adicionados com sucesso", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, products.size() + " Produtos adicionados com sucesso!", Toast.LENGTH_SHORT).show();
                     products.clear();
                     list.clear();
                 }else{

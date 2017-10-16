@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import marketplace.tcc.usjt.br.marketplace.R;
 import marketplace.tcc.usjt.br.marketplace.activity.triggerDetalhes.DetalheProdutoActivity;
 import marketplace.tcc.usjt.br.marketplace.adapter.ProdutoCategoriaAdapter;
+import marketplace.tcc.usjt.br.marketplace.adapter.RemoveItemAdapter;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
 import marketplace.tcc.usjt.br.marketplace.model.Produto;
 
@@ -45,13 +46,19 @@ public class MinhaMelhorOpcaoFragment extends Fragment {
     private ListView optionList;
     private ProgressBar spinner;
     private FloatingActionButton addCar;
+    private FloatingActionButton editList;
     // Android
     private View view;
     private Activity context;
     private ArrayAdapter adapter;
     private Bundle params;
     private AlertDialog.Builder dialog_cart;
+    private AlertDialog.Builder dialog_cart_2;
+    private AlertDialog.Builder dialog_cart_3;
+    private AlertDialog.Builder dialog_success;
+    private AlertDialog.Builder dialog_success_2;
     private final ArrayList<Produto> list = new ArrayList<>();
+    public boolean hasNormalAdapter = true;
     // Firebase
     private DatabaseReference reference;
     private DatabaseReference cart_reference;
@@ -67,9 +74,6 @@ public class MinhaMelhorOpcaoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        cart_reference = FirebaseConfig.getFirebase().child("carts");
-
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_minha_melhor_opcao, container, false);
         context = getActivity();
@@ -80,19 +84,34 @@ public class MinhaMelhorOpcaoFragment extends Fragment {
         if (user != null) {
             Log.i("USUARIO_LOGADO",user.getEmail().toString());
             Log.i("USUARIO_LOGADO",user.getUid().toString());
+            cart_reference = FirebaseConfig.getFirebase().child("carts").child(user.getUid());
         } else {
             Log.i("USUARIO_NAO_ENCONTRADO", "Erro");
         }
-
-        //Criando Dialog de envio ao carrinho
-        sendToCart();
 
         // Float de adicionar ao carrinho
         addCar = (FloatingActionButton) view.findViewById(R.id.fab_add_car);
         addCar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog_cart.show();
+                sendToCart();
+            }
+        });
+
+        // Float de editar lista de recomendações
+        editList = (FloatingActionButton) view.findViewById(R.id.fab_edit);
+        editList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (hasNormalAdapter == true){
+                    final RemoveItemAdapter adapter = new RemoveItemAdapter(list, context);
+                    optionList.setAdapter(adapter);
+                    hasNormalAdapter = false;
+                }else if(hasNormalAdapter == false){
+                    final ProdutoCategoriaAdapter adapter = new ProdutoCategoriaAdapter(list, context);
+                    optionList.setAdapter(adapter);
+                    hasNormalAdapter = true;
+                }
             }
         });
 
@@ -104,12 +123,6 @@ public class MinhaMelhorOpcaoFragment extends Fragment {
                 if (dataSnapshot.hasChild(user.getUid().toString())) {
                     // Quando o usuário possui perfil de recomendação
                     queryOption = user.getUid().toString();
-                    reference = reference.child(queryOption);
-                    queryProfiles(reference);
-                }
-                else {
-                    // Quando o usuário NÃO possui perfil de recomendação
-                    queryOption = "default";
                     reference = reference.child(queryOption);
                     queryProfiles(reference);
                 }
@@ -127,6 +140,9 @@ public class MinhaMelhorOpcaoFragment extends Fragment {
         final ProdutoCategoriaAdapter adapter = new ProdutoCategoriaAdapter(list, context);
         optionList = (ListView) view.findViewById(R.id.lista_melhor_opcao);
         optionList.setAdapter(adapter);
+        hasNormalAdapter = true;
+
+        // Clique normal no item da lista
         optionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -138,6 +154,35 @@ public class MinhaMelhorOpcaoFragment extends Fragment {
                 Intent detalheProduto = new Intent(context, DetalheProdutoActivity.class);
                 detalheProduto.putExtras(params);
                 startActivity(detalheProduto);
+            }
+        });
+
+        // Clique longo no item da lista
+        optionList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+                if(hasNormalAdapter == true){
+                    createSuccessDialog();
+                    createPositiveDialog(position);
+                    dialog_cart.show();
+                }else if(hasNormalAdapter == false){
+//                    createNegativeSuccessDialog();
+//                    createNegativeDialog(position);
+//                    dialog_cart_3.show();
+                }
+                return false;
+            }
+        });
+
+
+        // Clique longo no item da lista
+        optionList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+                createSuccessDialog();
+                createPositiveDialog(position);
+                dialog_cart.show();
+                return false;
             }
         });
 
@@ -162,29 +207,100 @@ public class MinhaMelhorOpcaoFragment extends Fragment {
         });
     }
 
-    public void sendToCart(){
+    public void createPositiveDialog(final int position){
+        //Criando Dialog de envio ao carrinho
         dialog_cart = new AlertDialog.Builder(context);
-        dialog_cart.setTitle("Deseja adicionar sua lista ao carrinho?");
-        dialog_cart.setMessage("Toda lista será adicionada ao carrinho");
+        dialog_cart.setTitle("Deseja adicionar o produto ao carrinho?");
         dialog_cart.setCancelable(true);
-        dialog_cart.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        dialog_cart.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                cart_reference.child(list.get(position).getNome()).setValue(list.get(position));
+                dialog_success.show();
+            }
+        });
+        dialog_cart.setNegativeButton("NÃO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}
+        });
+        dialog_cart.create();
+    }
+
+//    public void createNegativeDialog(final int position){
+//        //Criando Dialog de envio ao carrinho
+//        dialog_cart_3 = new AlertDialog.Builder(context);
+//        dialog_cart_3.setTitle("Deseja remover o produto da lista de recomendação?");
+//        dialog_cart_3.setCancelable(true);
+//        dialog_cart_3.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                cart_reference.child(list.get(position).getNome()).removeValue();
+//                dialog_success_2.show();
+//            }
+//        });
+//        dialog_cart_3.setNegativeButton("NÃO", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {}
+//        });
+//        dialog_cart_3.create();
+//    }
+
+    public void createSuccessDialog(){
+        //Criando Dialog de envio ao carrinho
+        dialog_success = new AlertDialog.Builder(context);
+        dialog_success.setTitle("Sucesso!");
+        dialog_success.setMessage("O produto foi adicionado com sucesso ao carrinho");
+        dialog_success.setCancelable(true);
+        dialog_success.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}
+        });
+        dialog_success.create();
+    }
+
+//    public void createNegativeSuccessDialog(){
+//        //Criando Dialog de envio ao carrinho
+//        dialog_success_2 = new AlertDialog.Builder(context);
+//        dialog_success_2.setTitle("Sucesso!");
+//        dialog_success_2.setMessage("O produto foi removido com sucesso da lista de recomendação");
+//        dialog_success_2.setCancelable(true);
+//        dialog_success_2.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                // Limpa o array list e recarrega
+//                list.clear();
+//                queryOption = user.getUid().toString();
+//                reference = reference.child(queryOption);
+//                queryProfiles(reference);
+//            }
+//        });
+//        dialog_success_2.create();
+//    }
+
+    public void sendToCart(){
+        dialog_cart_2 = new AlertDialog.Builder(context);
+        dialog_cart_2.setTitle("Deseja adicionar sua lista ao carrinho?");
+        dialog_cart_2.setMessage("Toda lista será adicionada ao carrinho");
+        dialog_cart_2.setCancelable(true);
+        dialog_cart_2.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Produto product = new Produto();
                 if (list.size() > 0){
                     for (int i = 0; i < list.size(); i ++){
-                        cart_reference.child(user.getUid()).child(list.get(i).getNome()).setValue(list.get(i));
+                        cart_reference.child(list.get(i).getNome()).setValue(list.get(i));
                     }
-                    Toast.makeText(context, list.size() + " Produtos adicionados com sucesso", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, list.size() + " Produtos adicionados com sucesso!", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(context, "Insira produtos na lista!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        dialog_cart.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+        dialog_cart_2.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {}
         });
-        dialog_cart.create();
+        dialog_cart_2.create();
+        dialog_cart_2.show();
     }
 }

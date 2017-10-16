@@ -55,6 +55,7 @@ public class CarrinhoActivity extends AppCompatActivity {
         }
 
         titulo_carrinho = (TextView) findViewById(R.id.titulo_carrinho);
+        titulo_carrinho.setText("Seu carrinho está vazio...");
 
         lista_carrinho = (ListView) findViewById(R.id.lista_carrinho);
         adapter = new RemoveItemAdapter(products, CarrinhoActivity.this);
@@ -138,6 +139,7 @@ public class CarrinhoActivity extends AppCompatActivity {
         dialog_success.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                // Limpa o array list e recarrega
                 products.clear();
                 loadCart();
             }

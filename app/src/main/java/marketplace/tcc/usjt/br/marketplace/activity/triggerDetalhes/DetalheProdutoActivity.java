@@ -1,9 +1,12 @@
 package marketplace.tcc.usjt.br.marketplace.activity.triggerDetalhes;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +21,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,6 +47,8 @@ public class DetalheProdutoActivity extends AppCompatActivity {
     private ProgressBar spinner;
     private Spinner select;
     private CheckBox checkboxPromocao;
+    private AlertDialog.Builder dialog_cart;
+    private AlertDialog.Builder dialog_success;
     private Activity context;
     // Android
     private Produto produto;
@@ -52,6 +59,8 @@ public class DetalheProdutoActivity extends AppCompatActivity {
     private double preco;
     private int quantidadeSelecionada;
     // Firebase
+    private DatabaseReference cart_reference;
+    private FirebaseUser user;
     private DatabaseReference reference;
     private Query queryRef;
 
@@ -78,6 +87,16 @@ public class DetalheProdutoActivity extends AppCompatActivity {
         select = (Spinner) findViewById(R.id.select_quantidade);
         select.setAdapter(adapter);
 
+        // Recupera o usuário atualmente logado
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            Log.i("USUARIO_LOGADO",user.getEmail().toString());
+            Log.i("USUARIO_LOGADO",user.getUid().toString());
+            cart_reference = FirebaseConfig.getFirebase().child("carts").child(user.getUid());
+        } else {
+            Log.i("USUARIO_NAO_ENCONTRADO", "Erro");
+        }
+
         // Verifica os dados vindos do intent de Categorias
         Intent intent = getIntent();
         if (intent != null){
@@ -99,20 +118,15 @@ public class DetalheProdutoActivity extends AppCompatActivity {
                         precoProdutoPromocao.setText("Valor promocional: R$ " + produto.getValor_promocao().toString());
                         spinner.setVisibility(View.GONE);
                     }
-
                     @Override
                     public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
-
                     @Override
                     public void onChildRemoved(DataSnapshot dataSnapshot) {}
-
                     @Override
                     public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {}
                 });
-
             }
         }
 
@@ -187,9 +201,43 @@ public class DetalheProdutoActivity extends AppCompatActivity {
 
     public void addCar(View view) {
         if (valorTotalProduto > 0){
-            Toast.makeText(context, "Produto adicionado ao carrinho!", Toast.LENGTH_SHORT).show();
+            createSuccessDialog();
+            createPositiveDialog(produto);
+            dialog_cart.show();
         }else{
-            Toast.makeText(context, "Não foi possível adicionar o produto.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Não foi possível adicionar o produto, confira as informações da compra.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void createPositiveDialog(final Produto produto){
+        //Criando Dialog de envio ao carrinho
+        dialog_cart = new AlertDialog.Builder(context);
+        dialog_cart.setTitle("Deseja adicionar o produto ao carrinho?");
+        dialog_cart.setCancelable(true);
+        dialog_cart.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                cart_reference.child(produto.getNome()).setValue(produto);
+                dialog_success.show();
+            }
+        });
+        dialog_cart.setNegativeButton("NÃO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}
+        });
+        dialog_cart.create();
+    }
+
+    public void createSuccessDialog(){
+        //Criando Dialog de envio ao carrinho
+        dialog_success = new AlertDialog.Builder(context);
+        dialog_success.setTitle("Sucesso!");
+        dialog_success.setMessage("O produto foi adicionado com sucesso ao carrinho");
+        dialog_success.setCancelable(true);
+        dialog_success.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}
+        });
+        dialog_success.create();
     }
 }
