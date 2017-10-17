@@ -250,7 +250,7 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
             EntrarEmContatoFragment fragment = new EntrarEmContatoFragment();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.layout_for_fragment, fragment, fragment.getTag()).commit();
-            bar = "Contato";
+            bar = "Entrar em contato";
             carouselView.setVisibility(View.INVISIBLE);
 
         } else if (id == R.id.nav_about) {
