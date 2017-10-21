@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,9 +30,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import marketplace.tcc.usjt.br.marketplace.R;
 import marketplace.tcc.usjt.br.marketplace.activity.triggerGlobal.InitialActivity;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
+import marketplace.tcc.usjt.br.marketplace.helper.Base64Helper;
+import marketplace.tcc.usjt.br.marketplace.model.Historico;
 import marketplace.tcc.usjt.br.marketplace.model.Produto;
 import marketplace.tcc.usjt.br.marketplace.model.Usuario;
 
@@ -39,6 +46,7 @@ public class CadastroActivity extends AppCompatActivity {
 
     // Atributos do Firebase
     private FirebaseAuth firebaseAuth;
+    private DatabaseReference historicReference;
     private DatabaseReference defaultListReference;
     private DatabaseReference recommendationProfileReference;
     // Atributos da Activity
@@ -67,6 +75,7 @@ public class CadastroActivity extends AppCompatActivity {
 
         // Instanciando variáveis do firebase
         firebaseAuth = FirebaseConfig.getFirebaseAuth();
+        historicReference = FirebaseConfig.getFirebase().child("historics");
         defaultListReference = FirebaseConfig.getFirebase().child("defaultRecomendationList");
         recommendationProfileReference = FirebaseConfig.getFirebase().child("recommendationProfiles");
 
@@ -179,6 +188,7 @@ public class CadastroActivity extends AppCompatActivity {
         String mensagem = "Bem vindo ao Market Place " + user.getNome() + " " + user.getSobrenome() + " !";
         sendSMS(telefone, mensagem);
         createdDefaultRecomendationProfile(userFirebase);
+        createdDefaultHistoric(userFirebase);
     }
 
     private boolean sendSMS(String tel, String msg){
@@ -190,6 +200,28 @@ public class CadastroActivity extends AppCompatActivity {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public void createdDefaultHistoric(FirebaseUser userFirebase){
+        Calendar cal = Calendar.getInstance();
+        Date currentLocalTime = cal.getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-hh.mm.ss");
+        String fullDate = dateFormat.format(currentLocalTime);
+        SimpleDateFormat date = new SimpleDateFormat("dd:MM:yyyy");
+        String formatedDate = date.format(currentLocalTime);
+        SimpleDateFormat hour = new SimpleDateFormat("hh:mm:ss");
+        String formatedHour = hour.format(currentLocalTime);
+
+        String sequence = Base64Helper.codifyBase64("historico " + fullDate);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        Historico historic = new Historico();
+        historic.setId(userFirebase.getUid());
+        historic.setCompra(Base64Helper.codifyBase64("cart "+ user.getEmail() +  fullDate));
+        historic.setData(formatedDate);
+        historic.setHora(formatedHour);
+        historic.setOrder("0");
+        Log.i("teste", sequence);
+        historic.save(Base64Helper.codifyBase64("cart "+ user.getEmail() +  fullDate));
     }
 
     public void createdDefaultRecomendationProfile(final FirebaseUser userFirebase){
@@ -263,14 +295,3 @@ public class CadastroActivity extends AppCompatActivity {
         cadastro_cep.setText("");
     }
 }
-
-// Testando adicionar produtos com Base64
-//                        Produto product = new Produto();
-//                        product.setNome("Morango");
-//                        product.setDescricao("Docinhos e suculentos, diretamente da horta.");
-//                        String identifyUser = Base64Helper.codifyBase64(product.getDescricao());
-//                        product.setId(identifyUser);
-//                        product.setValor("10,00");
-//                        product.setValor_promocao("06,00");
-//                        product.setNome_proprietario("Supermercado Carrefour");
-//                        product.save();

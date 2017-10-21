@@ -124,7 +124,16 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
         View header = navigationView.getHeaderView(0);
         userName = (TextView) header.findViewById(R.id.user_name_initial);
         userEmail= (TextView) header.findViewById(R.id.user_email_initial);
+
         userPhoto= (CircleImageView) header.findViewById(R.id.imagem_de_perfil);
+        userPhoto.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                Intent profile = new Intent(context, PerfilActivity.class);
+                startActivity(profile);
+                return false;
+            }
+        });
 
         displaySelectedScreen(R.id.nav_home);
 
@@ -158,6 +167,7 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Usuario usuario = dataSnapshot.getValue(Usuario.class);
+
                 userName.setText(usuario.getNome().toString() + " " + usuario.getSobrenome().toString());
                 userEmail.setText(usuario.getEmail().toString());
                 if (usuario.getImagemDePerfil() != null) {
@@ -193,7 +203,7 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
         int id = item.getItemId();
         switch (id) {
             case R.id.add_shopping:
-                Intent dialer= new Intent(this, CarrinhoActivity.class);
+                Intent dialer = new Intent(this, CarrinhoActivity.class);
                 startActivity(dialer);
                 return true;
         }

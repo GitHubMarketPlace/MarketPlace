@@ -165,15 +165,10 @@ public class MinhaMelhorOpcaoFragment extends Fragment {
                     createSuccessDialog();
                     createPositiveDialog(position);
                     dialog_cart.show();
-                }else if(hasNormalAdapter == false){
-//                    createNegativeSuccessDialog();
-//                    createNegativeDialog(position);
-//                    dialog_cart_3.show();
                 }
-                return false;
+                return true;
             }
         });
-
 
         // Clique longo no item da lista
         optionList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -182,7 +177,7 @@ public class MinhaMelhorOpcaoFragment extends Fragment {
                 createSuccessDialog();
                 createPositiveDialog(position);
                 dialog_cart.show();
-                return false;
+                return true;
             }
         });
 
@@ -226,24 +221,6 @@ public class MinhaMelhorOpcaoFragment extends Fragment {
         dialog_cart.create();
     }
 
-//    public void createNegativeDialog(final int position){
-//        //Criando Dialog de envio ao carrinho
-//        dialog_cart_3 = new AlertDialog.Builder(context);
-//        dialog_cart_3.setTitle("Deseja remover o produto da lista de recomendação?");
-//        dialog_cart_3.setCancelable(true);
-//        dialog_cart_3.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                cart_reference.child(list.get(position).getNome()).removeValue();
-//                dialog_success_2.show();
-//            }
-//        });
-//        dialog_cart_3.setNegativeButton("NÃO", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {}
-//        });
-//        dialog_cart_3.create();
-//    }
 
     public void createSuccessDialog(){
         //Criando Dialog de envio ao carrinho
@@ -257,25 +234,6 @@ public class MinhaMelhorOpcaoFragment extends Fragment {
         });
         dialog_success.create();
     }
-
-//    public void createNegativeSuccessDialog(){
-//        //Criando Dialog de envio ao carrinho
-//        dialog_success_2 = new AlertDialog.Builder(context);
-//        dialog_success_2.setTitle("Sucesso!");
-//        dialog_success_2.setMessage("O produto foi removido com sucesso da lista de recomendação");
-//        dialog_success_2.setCancelable(true);
-//        dialog_success_2.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                // Limpa o array list e recarrega
-//                list.clear();
-//                queryOption = user.getUid().toString();
-//                reference = reference.child(queryOption);
-//                queryProfiles(reference);
-//            }
-//        });
-//        dialog_success_2.create();
-//    }
 
     public void sendToCart(){
         dialog_cart_2 = new AlertDialog.Builder(context);
