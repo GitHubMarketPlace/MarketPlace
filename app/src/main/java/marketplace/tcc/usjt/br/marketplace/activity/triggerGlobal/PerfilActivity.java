@@ -141,7 +141,7 @@ public class PerfilActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Se encontrar um nó igual ao id do usuario logado, retorna o usuário
                 if (dataSnapshot.hasChild(user.getUid().toString())) {
-                    if (dataSnapshot.child(user.getUid().toString()).child("imagemDePerfil").getValue().toString() != null) {
+                    if (dataSnapshot.child(user.getUid().toString()).hasChild("imagemDePerfil")) {
                         Picasso.with(PerfilActivity.this).load(dataSnapshot.child(user.getUid().toString()).child("imagemDePerfil").getValue().toString()).into(userPhoto);
                     } else {
                         Picasso.with(PerfilActivity.this).load(R.drawable.person_placeholder).into(userPhoto);
