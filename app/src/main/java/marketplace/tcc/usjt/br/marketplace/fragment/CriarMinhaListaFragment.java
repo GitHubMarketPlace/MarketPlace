@@ -2,15 +2,20 @@ package marketplace.tcc.usjt.br.marketplace.fragment;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -28,13 +33,11 @@ import com.google.firebase.database.Query;
 import java.util.ArrayList;
 
 import marketplace.tcc.usjt.br.marketplace.R;
+import marketplace.tcc.usjt.br.marketplace.activity.triggerDetalhes.DetalheProdutoActivity;
 import marketplace.tcc.usjt.br.marketplace.adapter.ProdutoCategoriaAdapter;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
 import marketplace.tcc.usjt.br.marketplace.model.Produto;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class CriarMinhaListaFragment extends Fragment {
 
     private View view;
@@ -44,12 +47,13 @@ public class CriarMinhaListaFragment extends Fragment {
     private DatabaseReference cart_reference;
     private DatabaseReference user_cart_reference;
     private DatabaseReference products_reference;
-
+    private Bundle params;
     private ListView listaProdutos;
+    private CardView searchCard;
     private FloatingActionButton addCar;
     private AlertDialog.Builder dialog_cart;
     private AutoCompleteTextView autocomplete;
-
+    private AlertDialog.Builder dialog_success;
     private ProdutoCategoriaAdapter adapter;
     // Lista de produtos adicionados
     private final ArrayList<String> list = new ArrayList<>();
@@ -91,6 +95,17 @@ public class CriarMinhaListaFragment extends Fragment {
             }
         });
 
+        searchCard = (CardView) view.findViewById(R.id.card_search);
+        searchCard.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                autocomplete.requestFocus();
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(autocomplete, InputMethodManager.SHOW_IMPLICIT);
+                return true;
+            }
+        });
+
         // Autocomplete
         final ArrayAdapter<String> autocomplete_adapter = new ArrayAdapter<String>(context,android.R.layout.simple_dropdown_item_1line, list);
         autocomplete = (AutoCompleteTextView) view.findViewById(R.id.autocomplete);
@@ -101,6 +116,8 @@ public class CriarMinhaListaFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String nome_produto =  autocomplete_adapter.getItem(position).toString();
                 searchProductForList(nome_produto);
+                autocomplete.clearFocus();
+                hideSoftKeyboard(getActivity());
             }
         });
 
@@ -108,6 +125,28 @@ public class CriarMinhaListaFragment extends Fragment {
         listaProdutos = (ListView) view.findViewById(R.id.lista_produtos_selecionados);
         adapter = new ProdutoCategoriaAdapter(products, context);
         listaProdutos.setAdapter(adapter);
+        listaProdutos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                params = new Bundle();
+                params.putString("nomeProduto", products.get(position).getNome().toString());
+
+                // Passa o nome do produto para a view de detalhe
+                Intent detalheProduto = new Intent(context, DetalheProdutoActivity.class);
+                detalheProduto.putExtras(params);
+                startActivity(detalheProduto);
+            }
+        });
+        // Clique longo no item da lista
+        listaProdutos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+                createSuccessDialog();
+                createPositiveDialog(position);
+                dialog_cart.show();
+                return true;
+            }
+        });
 
         products_reference.addChildEventListener(new ChildEventListener() {
             @Override
@@ -142,7 +181,7 @@ public class CriarMinhaListaFragment extends Fragment {
                     for (int i = 0; i < products.size(); i ++){
                         cart_reference.child(user.getUid()).child(products.get(i).getNome()).setValue(products.get(i));
                     }
-                    Toast.makeText(context, products.size() + " Produtos adicionados com sucesso!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, products.size() + " produtos adicionados ao carrinho", Toast.LENGTH_SHORT).show();
                     products.clear();
                     list.clear();
                 }else{
@@ -159,13 +198,13 @@ public class CriarMinhaListaFragment extends Fragment {
 
     public void searchProductForList(String nome_produto){
         queryRef =  products_reference.orderByChild("nome").equalTo(nome_produto);
-
         queryRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Produto produto = dataSnapshot.getValue(Produto.class);
                 products.add(produto);
                 adapter.notifyDataSetChanged();
+                autocomplete.setText("");
             }
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
@@ -178,4 +217,43 @@ public class CriarMinhaListaFragment extends Fragment {
         });
     }
 
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
+    }
+
+    public void createPositiveDialog(final int position){
+        //Criando Dialog de envio ao carrinho
+        dialog_cart = new AlertDialog.Builder(context);
+        dialog_cart.setTitle("Deseja adicionar o produto ao carrinho?");
+        dialog_cart.setCancelable(true);
+        dialog_cart.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                cart_reference.child(user.getUid()).child(products.get(position).getNome()).setValue(products.get(position));
+                dialog_success.show();
+            }
+        });
+        dialog_cart.setNegativeButton("NÃO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}
+        });
+        dialog_cart.create();
+    }
+
+    public void createSuccessDialog(){
+        //Criando Dialog de envio ao carrinho
+        dialog_success = new AlertDialog.Builder(context);
+        dialog_success.setTitle("Sucesso!");
+        dialog_success.setMessage("O produto foi adicionado com sucesso ao carrinho");
+        dialog_success.setCancelable(true);
+        dialog_success.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}
+        });
+        dialog_success.create();
+    }
 }

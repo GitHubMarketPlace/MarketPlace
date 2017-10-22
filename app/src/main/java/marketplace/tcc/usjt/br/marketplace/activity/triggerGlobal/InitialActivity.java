@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 import marketplace.tcc.usjt.br.marketplace.R;
 import marketplace.tcc.usjt.br.marketplace.activity.triggerDetalhes.DetalheCategoriaActivity;
+import marketplace.tcc.usjt.br.marketplace.activity.triggerDetalhes.DetalheProdutoActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.triggerInitial.MainActivity;
 import marketplace.tcc.usjt.br.marketplace.adapter.CardExtremeAdapter;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
@@ -294,6 +296,18 @@ public class InitialActivity extends AppCompatActivity implements NavigationView
             public boolean onTouch(View v, MotionEvent event) {
                 v.getParent().requestDisallowInterceptTouchEvent(true);
                 return false;
+            }
+        });
+        optionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                params = new Bundle();
+                params.putString("nomeProduto", list.get(position).getNome().toString());
+
+                // Passa o nome do produto para a view de detalhe
+                Intent detalheProduto = new Intent(context, DetalheProdutoActivity.class);
+                detalheProduto.putExtras(params);
+                startActivity(detalheProduto);
             }
         });
 

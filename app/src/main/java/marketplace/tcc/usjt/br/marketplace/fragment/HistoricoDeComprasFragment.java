@@ -59,6 +59,7 @@ public class HistoricoDeComprasFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_historico_de_compras, container, false);
         context = getActivity();
         spinner = (ProgressBar) view.findViewById(R.id.progressBar8);
+        spinner.setVisibility(View.GONE);
 
         // Recupera o usuário atualmente logado
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -76,12 +77,9 @@ public class HistoricoDeComprasFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 queryHistorics(reference);
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
-
-
         return view;
     }
 
@@ -112,11 +110,9 @@ public class HistoricoDeComprasFragment extends Fragment {
         queryRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                spinner.setVisibility(View.VISIBLE);
                 Historico historico = dataSnapshot.getValue(Historico.class);
                 list.add(historico);
                 adapter.notifyDataSetChanged();
-                spinner.setVisibility(View.GONE);
             }
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {}

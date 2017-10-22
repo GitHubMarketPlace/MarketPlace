@@ -1,7 +1,9 @@
 package marketplace.tcc.usjt.br.marketplace.activity.triggerGlobal;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -31,7 +33,6 @@ public class PerfilActivity extends AppCompatActivity {
     private FirebaseUser user;
     private DatabaseReference reference;
     private DatabaseReference user_reference;
-
     private ProgressBar spinner;
     private CircleImageView userPhoto;
     private FloatingActionButton fab;
@@ -47,6 +48,7 @@ public class PerfilActivity extends AppCompatActivity {
     private EditText usuario_cidade;
     private EditText usuario_estado;
     private EditText usuario_cep;
+    private AlertDialog.Builder dialog_success;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,24 +68,24 @@ public class PerfilActivity extends AppCompatActivity {
 
         user_reference = FirebaseConfig.getFirebase().child("users").child(user.getUid().toString());
         userPhoto = (CircleImageView) findViewById(R.id.imagem_de_perfil);
-        usuario_nome      = (EditText)findViewById(R.id.usuario_nome);
+        usuario_nome = (EditText)findViewById(R.id.usuario_nome);
         usuario_sobrenome = (EditText)findViewById(R.id.usuario_sobrenome);
-        usuario_cpf       = (EditText)findViewById(R.id.usuario_cpf);
+        usuario_cpf = (EditText)findViewById(R.id.usuario_cpf);
         usuario_telefone  = (EditText)findViewById(R.id.usuario_telefone);
-        usuario_rua       = (EditText)findViewById(R.id.usuario_rua);
-        usuario_numero    = (EditText)findViewById(R.id.usuario_numero);
-        usuario_bairro    = (EditText)findViewById(R.id.usuario_bairro);
-        usuario_cidade    = (EditText)findViewById(R.id.usuario_cidade);
-        usuario_estado    = (EditText)findViewById(R.id.usuario_estado);
-        usuario_cep       = (EditText)findViewById(R.id.usuario_cep);
-        spinner            = (ProgressBar)findViewById(R.id.progressBar11);
+        usuario_rua = (EditText)findViewById(R.id.usuario_rua);
+        usuario_numero = (EditText)findViewById(R.id.usuario_numero);
+        usuario_bairro = (EditText)findViewById(R.id.usuario_bairro);
+        usuario_cidade = (EditText)findViewById(R.id.usuario_cidade);
+        usuario_estado = (EditText)findViewById(R.id.usuario_estado);
+        usuario_cep = (EditText)findViewById(R.id.usuario_cep);
+        spinner = (ProgressBar)findViewById(R.id.progressBar11);
         spinner.setVisibility(View.GONE);
-
 
         fab = (FloatingActionButton) findViewById(R.id.fab_refresh_data);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                spinner.setVisibility(View.VISIBLE);
                 reference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -101,15 +103,12 @@ public class PerfilActivity extends AppCompatActivity {
                             model_user.setCep(usuario_cep.getText().toString());
                             model_user.save();
 
-                            Log.i("teste", "Passei1");
-
                             String telefone = model_user.getTelefone();
                             telefone.replace(" ", "");
                             telefone.replace("-", "");
                             telefone.replace("(", "");
                             telefone.replace(")", "");
                             String mensagem = "Dados do usuário " + usuario_nome.getText().toString() + " " + usuario_sobrenome.getText().toString() + " foram alterados no Market Place";
-                            Log.i("teste", "Passei2");
                             sendSMS(telefone, mensagem);
                     }
                     @Override
@@ -134,20 +133,21 @@ public class PerfilActivity extends AppCompatActivity {
         usuario_estado.addTextChangedListener(maskEstado);
         usuario_cep.addTextChangedListener(maskCep);
 
-        // Cria uma referência a tabela de recomendação de produtos
+        // Cria uma referência a tabela de usuários
         reference = FirebaseConfig.getFirebase().child("users");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Se encontrar um nó igual ao id do usuario logado, retorna o usuário
                 if (dataSnapshot.hasChild(user.getUid().toString())) {
+                    // Trata a foto de perfil
                     if (dataSnapshot.child(user.getUid().toString()).hasChild("imagemDePerfil")) {
                         Picasso.with(PerfilActivity.this).load(dataSnapshot.child(user.getUid().toString()).child("imagemDePerfil").getValue().toString()).into(userPhoto);
                     } else {
                         Picasso.with(PerfilActivity.this).load(R.drawable.person_placeholder).into(userPhoto);
                     }
 
-                    // Quando o usuário possui perfil de recomendação
+                    // Quando o usuário possui dados de perfil
                     usuario_nome.setText(dataSnapshot.child(user.getUid().toString()).child("nome").getValue().toString());
                     usuario_sobrenome.setText(dataSnapshot.child(user.getUid().toString()).child("sobrenome").getValue().toString());
                     usuario_cpf.setText(dataSnapshot.child(user.getUid().toString()).child("cpf").getValue().toString());
@@ -166,42 +166,30 @@ public class PerfilActivity extends AppCompatActivity {
         });
     }
 
-    public void updateFirebaseProfileData(String phone, String userName, String userLastName){
-
-
-//        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-//                .setDisplayName(usuario_nome.getText().toString())
-//                .setPhotoUri(Uri.parse("https://example.com/jane-q-user/profile.jpg"))
-//                .build();
-//        user.updateProfile(profileUpdates)
-//                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        if (task.isSuccessful()) {
-//                            Log.d("UPDATE", "User profile updated.");
-//                        }
-//                    }
-//                });
-//        user.updateEmail("user@example.com")
-//                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        if (task.isSuccessful()) {
-//                            Log.d(TAG, "User email address updated.");
-//                        }
-//                    }
-//                });
-    }
-
     private boolean sendSMS(String tel, String msg){
         try{
             SmsManager smsManager = SmsManager.getDefault();
             smsManager.sendTextMessage(tel, null, msg, null, null);
+            spinner.setVisibility(View.GONE);
             return true;
         }catch(Exception e){
             e.printStackTrace();
             return false;
         }
+    }
+
+    public void createSuccessDialog(){
+        //Criando Dialog de envio ao carrinho
+        dialog_success = new AlertDialog.Builder(PerfilActivity.this);
+        dialog_success.setTitle("Dados alterados com sucesso!");
+        dialog_success.setMessage("Faça login novamente no aplicativo para ver as alterações");
+        dialog_success.setCancelable(true);
+        dialog_success.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        dialog_success.create();
     }
 
     @Override

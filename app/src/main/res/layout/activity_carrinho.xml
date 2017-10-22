@@ -50,8 +50,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fastScrollAlwaysVisible="false"></ListView>
-
         </LinearLayout>
-
     </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_buy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@drawable/ic_done"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@drawable/ic_thrash"/>
 </android.support.design.widget.CoordinatorLayout>

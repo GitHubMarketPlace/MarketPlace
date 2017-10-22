@@ -13,12 +13,13 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -37,6 +38,7 @@ public class DetalheHistoricoActivity extends AppCompatActivity {
     private ListView productList;
     private Activity context;
     private DatabaseReference reference;
+    private FirebaseUser user;
     private Query queryRef;
     private String queryOption;
     private Bundle params;
@@ -54,6 +56,7 @@ public class DetalheHistoricoActivity extends AppCompatActivity {
 
         spinner = (ProgressBar)findViewById(R.id.progressBar10);
 
+        user = FirebaseAuth.getInstance().getCurrentUser();
         // Verifica os dados vindos do intent de Categorias
         Intent intent = getIntent();
         if (intent != null){
@@ -65,22 +68,10 @@ public class DetalheHistoricoActivity extends AppCompatActivity {
 
                 historicoData.setText("Data: " + dataCarrinho);
                 historicoHora.setText("Horario da compra: " + horaCarrinho);
+                final String cartFirebase = "finalizado" + params.getString("dataCarrinho") + "-" + params.getString("horaCarrinho") + user.getUid();
 
-                reference = FirebaseConfig.getFirebase().child("carts");
-                reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.hasChild(idCarrinho)) {
-                            // Quando o usuário possui perfil de recomendação
-                            queryOption = idCarrinho;
-                            reference = reference.child(queryOption);
-                            queryProfiles(reference);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {}
-                });
+                reference = FirebaseConfig.getFirebase().child("carts").child(cartFirebase);
+                queryProfiles(reference);
             }
         }
     }

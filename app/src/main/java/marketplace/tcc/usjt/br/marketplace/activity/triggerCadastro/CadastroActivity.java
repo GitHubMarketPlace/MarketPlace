@@ -30,15 +30,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 import marketplace.tcc.usjt.br.marketplace.R;
 import marketplace.tcc.usjt.br.marketplace.activity.triggerGlobal.InitialActivity;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
-import marketplace.tcc.usjt.br.marketplace.helper.Base64Helper;
-import marketplace.tcc.usjt.br.marketplace.model.Historico;
 import marketplace.tcc.usjt.br.marketplace.model.Produto;
 import marketplace.tcc.usjt.br.marketplace.model.Usuario;
 
@@ -186,9 +180,9 @@ public class CadastroActivity extends AppCompatActivity {
         telefone.replace("(", "");
         telefone.replace(")", "");
         String mensagem = "Bem vindo ao Market Place " + user.getNome() + " " + user.getSobrenome() + " !";
-        sendSMS(telefone, mensagem);
         createdDefaultRecomendationProfile(userFirebase);
-        createdDefaultHistoric(userFirebase);
+        sendSMS(telefone, mensagem);
+        sendEmailVerification(userFirebase);
     }
 
     private boolean sendSMS(String tel, String msg){
@@ -202,26 +196,16 @@ public class CadastroActivity extends AppCompatActivity {
         }
     }
 
-    public void createdDefaultHistoric(FirebaseUser userFirebase){
-        Calendar cal = Calendar.getInstance();
-        Date currentLocalTime = cal.getTime();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-hh.mm.ss");
-        String fullDate = dateFormat.format(currentLocalTime);
-        SimpleDateFormat date = new SimpleDateFormat("dd:MM:yyyy");
-        String formatedDate = date.format(currentLocalTime);
-        SimpleDateFormat hour = new SimpleDateFormat("hh:mm:ss");
-        String formatedHour = hour.format(currentLocalTime);
-
-        String sequence = Base64Helper.codifyBase64("historico " + fullDate);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        Historico historic = new Historico();
-        historic.setId(userFirebase.getUid());
-        historic.setCompra(Base64Helper.codifyBase64("cart "+ user.getEmail() +  fullDate));
-        historic.setData(formatedDate);
-        historic.setHora(formatedHour);
-        historic.setOrder("0");
-        Log.i("teste", sequence);
-        historic.save(Base64Helper.codifyBase64("cart "+ user.getEmail() +  fullDate));
+    private void sendEmailVerification(FirebaseUser user){
+        user.sendEmailVerification()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.i("verification", "Email sent.");
+                        }
+                    }
+                });
     }
 
     public void createdDefaultRecomendationProfile(final FirebaseUser userFirebase){
@@ -240,6 +224,7 @@ public class CadastroActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
+        goToHomePage();
     }
 
 
