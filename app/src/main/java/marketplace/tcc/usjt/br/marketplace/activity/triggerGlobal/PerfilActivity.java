@@ -91,6 +91,7 @@ public class PerfilActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                             Usuario model_user = new Usuario();
                             model_user.setId(user.getUid());
+                            model_user.setEmail(user.getEmail());
                             model_user.setNome(usuario_nome.getText().toString());
                             model_user.setSobrenome(usuario_sobrenome.getText().toString());
                             model_user.setCpf(usuario_cpf.getText().toString());
@@ -101,6 +102,12 @@ public class PerfilActivity extends AppCompatActivity {
                             model_user.setCidade(usuario_cidade.getText().toString());
                             model_user.setEstado(usuario_estado.getText().toString());
                             model_user.setCep(usuario_cep.getText().toString());
+
+//                            TODO: Quando o usuário puder setar a imagem definini-la na edição
+//                            if (user.getImagemDePerfil()){
+//                                model_user.setImagemDePerfil(user.setImagem());
+//                            }
+
                             model_user.save();
 
                             String telefone = model_user.getTelefone();
