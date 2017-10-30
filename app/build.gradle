@@ -5,13 +5,13 @@ apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "marketplace.tcc.usjt.br.marketplace"
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 2
-        versionName "1.0"
+        versionName "1.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

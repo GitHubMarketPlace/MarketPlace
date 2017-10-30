@@ -191,8 +191,6 @@ public class CarrinhoActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {}
         });
 
-        close_cart_reference.child(user.getUid()).removeValue();
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Historico historic = new Historico();
         historic.setId(user.getUid());
@@ -201,6 +199,8 @@ public class CarrinhoActivity extends AppCompatActivity {
         historic.setHora(formatedHour);
         historic.setOrder("0");
         historic.save(Base64Helper.codifyBase64("cart "+ user.getEmail() +  fullDate));
+
+        close_cart_reference.child(user.getUid()).removeValue();
         createBuySuccessDialog();
     }
 
