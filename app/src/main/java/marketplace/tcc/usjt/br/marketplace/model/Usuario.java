@@ -8,6 +8,7 @@ import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
 public class Usuario {
 
     private String id;
+    private String userId;
     private String numero;
     private String nome;
     private String sobrenome;
@@ -34,6 +35,9 @@ public class Usuario {
     @Exclude
     public String getId() { return id;}
     public void setId(String id) { this.id = id; }
+
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = userId; }
 
     public String getCpf() {
         return cpf;
@@ -120,5 +124,4 @@ public class Usuario {
 
     public String getImagemDePerfil() { return imagemDePerfil; }
     public void setImagemDePerfil(String imagemDePerfil) { this.imagemDePerfil = imagemDePerfil; }
-
 }

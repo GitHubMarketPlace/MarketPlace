@@ -30,6 +30,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
+import java.util.ArrayList;
+
 import marketplace.tcc.usjt.br.marketplace.R;
 import marketplace.tcc.usjt.br.marketplace.activity.triggerGlobal.InitialActivity;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
@@ -40,6 +42,7 @@ public class CadastroActivity extends AppCompatActivity {
 
     // Atributos do Firebase
     private FirebaseAuth firebaseAuth;
+    private DatabaseReference userReference;
     private DatabaseReference historicReference;
     private DatabaseReference defaultListReference;
     private DatabaseReference recommendationProfileReference;
@@ -60,6 +63,7 @@ public class CadastroActivity extends AppCompatActivity {
     private AlertDialog.Builder dialog_complete;
     private AlertDialog.Builder dialog_error;
     private String error_message;
+    private final ArrayList<Usuario> users = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +73,7 @@ public class CadastroActivity extends AppCompatActivity {
 
         // Instanciando variáveis do firebase
         firebaseAuth = FirebaseConfig.getFirebaseAuth();
+        userReference = FirebaseConfig.getFirebase().child("users");
         historicReference = FirebaseConfig.getFirebase().child("historics");
         defaultListReference = FirebaseConfig.getFirebase().child("defaultRecomendationList");
         recommendationProfileReference = FirebaseConfig.getFirebase().child("recommendationProfiles");
@@ -104,6 +109,23 @@ public class CadastroActivity extends AppCompatActivity {
         cadastro_telefone.addTextChangedListener(maskTelefone);
         cadastro_estado.addTextChangedListener(maskEstado);
         cadastro_cep.addTextChangedListener(maskCep);
+
+//        userReference.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                // Armazena para saber o número total de usuários
+//                users.add(dataSnapshot.getValue(Usuario.class));
+//                Toast.makeText(CadastroActivity.this,"Teste " + users.size(), Toast.LENGTH_SHORT).show();
+//            }
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {}
+//        });
     }
 
     @Override
@@ -156,10 +178,12 @@ public class CadastroActivity extends AppCompatActivity {
     }
 
     public void createAndSaveUserObject(Task<AuthResult> task){
+
         // Cria o objeto do usuário e salva os dados no banco
         Usuario user = new Usuario();
         FirebaseUser userFirebase = task.getResult().getUser();
         user.setId(userFirebase.getUid());
+//        user.setUserId(String.valueOf(size));
         user.setNome(cadastro_nome.getText().toString());
         user.setSobrenome(cadastro_sobrenome.getText().toString());
         user.setEmail(cadastro_email.getText().toString());
