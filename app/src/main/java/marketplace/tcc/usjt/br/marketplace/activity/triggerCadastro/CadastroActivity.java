@@ -110,6 +110,8 @@ public class CadastroActivity extends AppCompatActivity {
         cadastro_estado.addTextChangedListener(maskEstado);
         cadastro_cep.addTextChangedListener(maskCep);
 
+
+        // Para salvar o id do user dinamicamente
 //        userReference.addChildEventListener(new ChildEventListener() {
 //            @Override
 //            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
