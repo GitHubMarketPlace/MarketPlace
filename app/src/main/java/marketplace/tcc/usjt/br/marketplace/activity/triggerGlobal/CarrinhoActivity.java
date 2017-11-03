@@ -22,6 +22,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
@@ -30,23 +31,21 @@ import java.util.Calendar;
 import java.util.Date;
 
 import marketplace.tcc.usjt.br.marketplace.R;
-import marketplace.tcc.usjt.br.marketplace.activity.retrofit.service.RetrofitInicializadorActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.triggerDetalhes.DetalheProdutoActivity;
-import marketplace.tcc.usjt.br.marketplace.activity.triggerRecommendation.DadosRecomendacaoActivity;
 import marketplace.tcc.usjt.br.marketplace.adapter.RemoveItemAdapter;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
 import marketplace.tcc.usjt.br.marketplace.helper.Base64Helper;
 import marketplace.tcc.usjt.br.marketplace.model.Historico;
 import marketplace.tcc.usjt.br.marketplace.model.Produto;
 import marketplace.tcc.usjt.br.marketplace.model.Usuario;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class CarrinhoActivity extends AppCompatActivity {
 
     private FirebaseUser user;
+    private Query queryRef;
     private DatabaseReference reference;
+    private DatabaseReference recommendation_reference;
+    private DatabaseReference products_reference;
     private DatabaseReference close_cart_reference;
     private DatabaseReference user_reference;
     private Bundle params;
@@ -75,6 +74,7 @@ public class CarrinhoActivity extends AppCompatActivity {
         context = CarrinhoActivity.this;
 
         close_cart_reference = FirebaseConfig.getFirebase().child("carts");
+        products_reference = FirebaseConfig.getFirebase().child("products");
 
         // Recupera o usuário atualmente logado
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -83,6 +83,7 @@ public class CarrinhoActivity extends AppCompatActivity {
             Log.i("USUARIO_LOGADO",user.getUid().toString());
             reference = FirebaseConfig.getFirebase().child("carts").child(user.getUid());
             user_reference = FirebaseConfig.getFirebase().child("users").child(user.getUid());
+            recommendation_reference = FirebaseConfig.getFirebase().child("recommendationProfiles").child(user.getUid());
         } else {
             Log.i("USUARIO_NAO_ENCONTRADO", "Erro");
         }
@@ -230,30 +231,59 @@ public class CarrinhoActivity extends AppCompatActivity {
     }
 
     public void callWebService(ArrayList<Integer> products_ids) {
+        createRecommentatioData();
         //CONSUMINDO WEBSERVICE PARA ATUALIZAR OS DADOS DA RECOMENDAÇÃO
-        DadosRecomendacaoActivity dados = new DadosRecomendacaoActivity();
-        dados.setIdCliente(user_id);
-        dados.setIdProdutoList(products_ids);
-        // TODO: Criar mecanismo de atribuição de nota para o produto
-        dados.setNota(5.0);
-        Call<Void> call = new RetrofitInicializadorActivity().getRecomendacaoService().armazenaDadosRecomendacao(dados);
-        call.enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                Log.i("onResponse", "requisição com sucesso");
-                createRecommentatioData();
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                Log.e("onFailure", "requisição falhou");
-            }
-        });
+//        DadosRecomendacaoActivity dados = new DadosRecomendacaoActivity();
+//        dados.setIdCliente(user_id);
+//        dados.setIdProdutoList(products_ids);
+//        // TODO: Criar mecanismo de atribuição de nota para o produto
+//        dados.setNota(5.0);
+//        Call<Void> call = new RetrofitInicializadorActivity().getRecomendacaoService().armazenaDadosRecomendacao(dados);
+//        call.enqueue(new Callback() {
+//            @Override
+//            public void onResponse(Call call, Response response) {
+//                Log.i("onResponse", "requisição com sucesso");
+//                createRecommentatioData();
+//            }
+//
+//            @Override
+//            public void onFailure(Call call, Throwable t) {
+//                Log.e("onFailure", "requisição falhou");
+//            }
+//        });
     }
 
     public void createRecommentatioData(){
         // Chama função com retorno da api, a partir dela, apaga os produtos anteriores e
         // faz uma busca para recuperar os produtos com base no id de retorno da api para depois salvar no child do id do user
+        //Chama função da api
+
+        final ArrayList<Produto> produtos_retornados = new ArrayList<>();
+        final int[] array  = {1,2,3};
+        for (Integer value: array ) {
+            queryRef =  products_reference.orderByChild("id").equalTo(value.toString());
+            queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Produto produto = dataSnapshot.getValue(Produto.class);
+                    produtos_retornados.add(produto);
+                    if (array.length == produtos_retornados.size()){
+                        recommendation_reference.removeValue();
+                        makeListOfProducts(produtos_retornados);
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {}
+            });
+        }
+    }
+
+    public void makeListOfProducts(ArrayList<Produto> products){
+
+        recommendation_reference = FirebaseConfig.getFirebase().child("recommendationProfiles").child(user.getUid().toString());
+        for (Produto product: products) {
+            recommendation_reference.child(product.getId()).setValue(product);
+        }
     }
 
     public void createPositiveDialog(final int position){
