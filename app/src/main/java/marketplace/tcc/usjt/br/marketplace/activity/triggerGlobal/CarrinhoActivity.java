@@ -22,6 +22,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,19 +30,25 @@ import java.util.Calendar;
 import java.util.Date;
 
 import marketplace.tcc.usjt.br.marketplace.R;
+import marketplace.tcc.usjt.br.marketplace.activity.retrofit.service.RetrofitInicializadorActivity;
 import marketplace.tcc.usjt.br.marketplace.activity.triggerDetalhes.DetalheProdutoActivity;
+import marketplace.tcc.usjt.br.marketplace.activity.triggerRecommendation.DadosRecomendacaoActivity;
 import marketplace.tcc.usjt.br.marketplace.adapter.RemoveItemAdapter;
 import marketplace.tcc.usjt.br.marketplace.config.FirebaseConfig;
 import marketplace.tcc.usjt.br.marketplace.helper.Base64Helper;
 import marketplace.tcc.usjt.br.marketplace.model.Historico;
 import marketplace.tcc.usjt.br.marketplace.model.Produto;
+import marketplace.tcc.usjt.br.marketplace.model.Usuario;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CarrinhoActivity extends AppCompatActivity {
 
     private FirebaseUser user;
     private DatabaseReference reference;
     private DatabaseReference close_cart_reference;
-    private DatabaseReference historics_reference;
+    private DatabaseReference user_reference;
     private Bundle params;
     private Activity context;
     private ListView lista_carrinho;
@@ -56,7 +63,9 @@ public class CarrinhoActivity extends AppCompatActivity {
     private AlertDialog.Builder dialog_buy_success;
     private AlertDialog.Builder dialog_clear;
     private AlertDialog.Builder dialog_clear_success;
+    private int user_id;
     private final ArrayList<Produto> products = new ArrayList<>();
+    private final ArrayList<Integer> products_ids = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +75,6 @@ public class CarrinhoActivity extends AppCompatActivity {
         context = CarrinhoActivity.this;
 
         close_cart_reference = FirebaseConfig.getFirebase().child("carts");
-        historics_reference = FirebaseConfig.getFirebase().child("historics");
 
         // Recupera o usuário atualmente logado
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -74,9 +82,21 @@ public class CarrinhoActivity extends AppCompatActivity {
             Log.i("USUARIO_LOGADO",user.getEmail().toString());
             Log.i("USUARIO_LOGADO",user.getUid().toString());
             reference = FirebaseConfig.getFirebase().child("carts").child(user.getUid());
+            user_reference = FirebaseConfig.getFirebase().child("users").child(user.getUid());
         } else {
             Log.i("USUARIO_NAO_ENCONTRADO", "Erro");
         }
+
+        // Recupera o id do usuário
+        user_reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Usuario model_user = dataSnapshot.getValue(Usuario.class);;
+                user_id = Integer.parseInt(model_user.getUserId());
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
 
         clearCart = (FloatingActionButton) findViewById(R.id.fab_clear);
         clearCart.setOnClickListener(new View.OnClickListener() {
@@ -178,8 +198,13 @@ public class CarrinhoActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Produto produto = dataSnapshot.getValue(Produto.class);
+                products_ids.add(Integer.parseInt(produto.getId()));
                 String childFinalized = formatedDateFirebase;
                 close_cart_reference.child(childFinalized).child(produto.getNome()).setValue(produto);
+
+                if (products_ids.size() == products.size()){
+                    callWebService(products_ids);
+                }
             }
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
@@ -202,6 +227,33 @@ public class CarrinhoActivity extends AppCompatActivity {
 
         close_cart_reference.child(user.getUid()).removeValue();
         createBuySuccessDialog();
+    }
+
+    public void callWebService(ArrayList<Integer> products_ids) {
+        //CONSUMINDO WEBSERVICE PARA ATUALIZAR OS DADOS DA RECOMENDAÇÃO
+        DadosRecomendacaoActivity dados = new DadosRecomendacaoActivity();
+        dados.setIdCliente(user_id);
+        dados.setIdProdutoList(products_ids);
+        // TODO: Criar mecanismo de atribuição de nota para o produto
+        dados.setNota(5.0);
+        Call<Void> call = new RetrofitInicializadorActivity().getRecomendacaoService().armazenaDadosRecomendacao(dados);
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                Log.i("onResponse", "requisição com sucesso");
+                createRecommentatioData();
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Log.e("onFailure", "requisição falhou");
+            }
+        });
+    }
+
+    public void createRecommentatioData(){
+        // Chama função com retorno da api, a partir dela, apaga os produtos anteriores e
+        // faz uma busca para recuperar os produtos com base no id de retorno da api para depois salvar no child do id do user
     }
 
     public void createPositiveDialog(final int position){
