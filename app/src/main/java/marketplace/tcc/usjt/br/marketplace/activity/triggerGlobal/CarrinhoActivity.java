@@ -75,6 +75,7 @@ public class CarrinhoActivity extends AppCompatActivity {
 
         close_cart_reference = FirebaseConfig.getFirebase().child("carts");
         products_reference = FirebaseConfig.getFirebase().child("products");
+        recommendation_reference = FirebaseConfig.getFirebase().child("recommendationProfiles");
 
         // Recupera o usuário atualmente logado
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -83,7 +84,6 @@ public class CarrinhoActivity extends AppCompatActivity {
             Log.i("USUARIO_LOGADO",user.getUid().toString());
             reference = FirebaseConfig.getFirebase().child("carts").child(user.getUid());
             user_reference = FirebaseConfig.getFirebase().child("users").child(user.getUid());
-            recommendation_reference = FirebaseConfig.getFirebase().child("recommendationProfiles").child(user.getUid());
         } else {
             Log.i("USUARIO_NAO_ENCONTRADO", "Erro");
         }
@@ -262,27 +262,32 @@ public class CarrinhoActivity extends AppCompatActivity {
         final int[] array  = {1,2,3};
         for (Integer value: array ) {
             queryRef =  products_reference.orderByChild("id").equalTo(value.toString());
-            queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            queryRef.addChildEventListener(new ChildEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     Produto produto = dataSnapshot.getValue(Produto.class);
                     produtos_retornados.add(produto);
                     if (array.length == produtos_retornados.size()){
-                        recommendation_reference.removeValue();
+                        Log.i("TESTE")
                         makeListOfProducts(produtos_retornados);
                     }
                 }
                 @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {}
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+                @Override
                 public void onCancelled(DatabaseError databaseError) {}
             });
+
         }
     }
 
     public void makeListOfProducts(ArrayList<Produto> products){
-
-        recommendation_reference = FirebaseConfig.getFirebase().child("recommendationProfiles").child(user.getUid().toString());
         for (Produto product: products) {
-            recommendation_reference.child(product.getId()).setValue(product);
+            recommendation_reference.child(user.getUid().toString()).child(product.getId()).setValue(product);
         }
     }
 
