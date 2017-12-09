@@ -268,7 +268,7 @@ public class CarrinhoActivity extends AppCompatActivity {
                     Produto produto = dataSnapshot.getValue(Produto.class);
                     produtos_retornados.add(produto);
                     if (array.length == produtos_retornados.size()){
-                        Log.i("TESTE")
+//                        Log.i("TESTE");
                         makeListOfProducts(produtos_retornados);
                     }
                 }
